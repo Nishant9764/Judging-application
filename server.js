@@ -15,6 +15,11 @@ app.get("/", (req, res) => {
     res.render("landingPage.ejs");
 });
 
+app.get("/home",(req,res)=>{
+    res.render("home.ejs");
+    res.send("Routed to login page");
+});
+
 app.listen(port, () => {
     console.log(`Server running on port: http://localhost:${port}`);
 });
