@@ -10,10 +10,10 @@ app.use(express.urlencoded({extended: true}));
 app.use(express.json());
 app.use(express.static(path.join(__dirname, "public")));
 
-app.get("/home", (req, res) => {
+app.get("/", (req, res) => {
     res.render("home.ejs");
 });
 
 app.listen(port, () => {
-    console.log(`Server running on port: http://localhost:${port}/home`);
+    console.log(`Server running on port: http://localhost:${port}`);
 });
