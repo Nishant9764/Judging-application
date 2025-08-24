@@ -12,7 +12,7 @@ app.use(express.static('public'));
 app.use(express.static(path.join(__dirname, "public")));
 
 app.get("/", (req, res) => {
-    res.render("home.ejs");
+    res.render("landingPage.ejs");
 });
 
 app.listen(port, () => {
