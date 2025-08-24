@@ -41,19 +41,23 @@ body {
 .lotus-symbol {
     width: 60px;
     height: 60px;
-    background: linear-gradient(45deg, #ff6b35, #f7931e);
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
     border: 3px solid #fff;
     box-shadow: 0 0 20px rgba(255, 107, 53, 0.5);
+    /* ✨ CHANGED: Set background to white to blend with the logo */
+    background-color: #fff; 
 }
 
-.lotus-symbol i {
-    font-size: 24px;
-    color: white;
-    animation: rotate 10s linear infinite;
+/* ✨ UPDATED: Styles for the image inside the logo container */
+.lotus-symbol img {
+    width: 100%;
+    height: 100%;
+    /* ✨ CHANGED: 'contain' fits the entire image inside the circle */
+    object-fit: contain; 
+    border-radius: 50%;
 }
 
 .logo-text {
@@ -110,19 +114,25 @@ body {
 .circular-frame {
     width: 60px;
     height: 60px;
-    background: linear-gradient(45deg, #8b5a3c, #d4af37);
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
     border: 3px solid #fff;
     box-shadow: 0 0 20px rgba(212, 175, 55, 0.5);
+    /* ✨ CHANGED: Set background to white to blend with the logo */
+    background-color: #fff;
 }
 
-.circular-frame i {
-    font-size: 24px;
-    color: white;
+/* ✨ UPDATED: Styles for the image inside the logo container */
+.circular-frame img {
+    width: 100%;
+    height: 100%;
+    /* ✨ CHANGED: 'contain' fits the entire image inside the circle */
+    object-fit: contain; 
+    border-radius: 50%;
 }
+
 
 /* Main Content */
 .main-content {
@@ -143,7 +153,6 @@ body {
     margin-bottom: 60px;
 }
 
-/* Krishna Illustration */
 .krishna-illustration {
     position: relative;
 }
@@ -227,7 +236,6 @@ body {
     animation-delay: 0.5s;
 }
 
-/* Hare Krishna Text */
 .hare-krishna-text {
     display: flex;
     flex-direction: column;
@@ -315,11 +323,6 @@ body {
 }
 
 /* Animations */
-@keyframes rotate {
-    from { transform: rotate(0deg); }
-    to { transform: rotate(360deg); }
-}
-
 @keyframes sway {
     from { transform: rotate(-5deg); }
     to { transform: rotate(5deg); }
