@@ -17,7 +17,6 @@ app.get("/", (req, res) => {
 
 app.get("/home",(req,res)=>{
     res.render("home.ejs");
-    res.send("Routed to login page");
 });
 
 app.listen(port, () => {
