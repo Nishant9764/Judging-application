@@ -47,14 +47,13 @@ body {
     justify-content: center;
     border: 3px solid #fff;
     box-shadow: 0 0 20px rgba(255, 107, 53, 0.5);
-    background-color: #fff; 
+    background-color: #fff;
 }
-
 
 .lotus-symbol img {
     width: 100%;
     height: 100%;
-    object-fit: contain; 
+    object-fit: contain;
     border-radius: 50%;
 }
 
@@ -124,10 +123,9 @@ body {
 .circular-frame img {
     width: 100%;
     height: 100%;
-    object-fit: contain; 
+    object-fit: contain;
     border-radius: 50%;
 }
-
 
 /* Main Content */
 .main-content {
@@ -137,9 +135,9 @@ body {
     align-items: center;
     justify-content: center;
     padding: 40px;
+    padding-bottom: 0px;
     position: relative;
 }
-
 
 .hare-krishna-text {
     display: flex;
@@ -170,7 +168,39 @@ body {
     animation: glow 2s ease-in-out infinite alternate;
 }
 
+/* Get Started Button Styles */
+.get-started {
+    padding-bottom: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
 
+.get-started button {
+    font-family: 'Cinzel', serif;
+    font-size: 20px;
+    font-weight: 600;
+    color: #1a0033; 
+    padding: 15px 45px;
+    border: none;
+    border-radius: 50px; 
+    background: linear-gradient(45deg, #ffd700, #ffae00); /* Golden gradient */
+    cursor: pointer;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    box-shadow: 0 4px 20px rgba(255, 215, 0, 0.4);
+    transition: all 0.3s ease-in-out;
+}
+
+.get-started button:hover {
+    transform: translateY(-5px) scale(1.05); /* Lift up and grow */
+    box-shadow: 0 8px 30px rgba(255, 215, 0, 0.6); /* Intense glow on hover */
+}
+
+.get-started button:active {
+    transform: translateY(0) scale(1); /* Push down on click */
+    box-shadow: 0 4px 20px rgba(255, 215, 0, 0.4);
+}
 
 
 /* Animations */
@@ -180,11 +210,11 @@ body {
 }
 
 @keyframes glow {
-    from { 
+    from {
         text-shadow: 0 0 20px rgba(0, 255, 127, 0.6);
         filter: brightness(1);
     }
-    to { 
+    to {
         text-shadow: 0 0 30px rgba(0, 255, 127, 1), 0 0 40px rgba(64, 224, 208, 0.8);
         filter: brightness(1.2);
     }
@@ -286,7 +316,7 @@ body::before {
     left: 0;
     width: 100%;
     height: 100%;
-    background: 
+    background:
         radial-gradient(circle at 20% 80%, rgba(255, 107, 53, 0.1) 0%, transparent 50%),
         radial-gradient(circle at 80% 20%, rgba(0, 255, 127, 0.1) 0%, transparent 50%),
         radial-gradient(circle at 40% 40%, rgba(64, 224, 208, 0.1) 0%, transparent 50%);
