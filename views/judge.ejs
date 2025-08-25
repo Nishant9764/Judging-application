@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Judge Scoring Page</title>
+    <!-- Link to the external CSS file -->
+    <link rel="stylesheet" href="/CSS/judge.css">
+    <!-- Google Fonts and Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css" rel="stylesheet"/>
+</head>
+<body>
+    <!-- Main container for the entire application -->
+    <div class="app-container">
+        <!-- Header Section -->
+        <header class="app-header">
+            <div class="header-left">
+                <a href="#" class="back-link">
+                    <i class="ri-arrow-left-s-line"></i>
+                    Back to Dashboard
+                </a>
+                <div class="event-title">
+                    <h1 id="event-name">Poetry Recitation</h1>
+                    <p>St. Mary's High School - Senior Poetry</p>
+                </div>
+            </div>
+            <div class="header-right">
+                <div class="user-info">
+                    <span>judge</span>
+                    <small>Judge</small>
+                </div>
+                <a href="#" class="logout-button">
+                    <i class="ri-logout-box-r-line"></i>
+                    Logout
+                </a>
+            </div>
+        </header>
+
+        <!-- Main Content Area -->
+        <main class="scoring-grid">
+            <!-- Student List Sidebar -->
+            <aside class="student-sidebar">
+                <div class="sidebar-header">
+                    <h2>Students (8)</h2>
+                    <p>Progress: 38% complete</p>
+                    <div class="progress-bar">
+                        <div class="progress-bar-fill" style="width: 38%;"></div>
+                    </div>
+                </div>
+                <ul class="student-list">
+                    <li class="student-item completed" data-student-name="Emma Thompson">
+                        <i class="ri-user-line"></i>
+                        <span>Emma Thompson</span>
+                        <i class="ri-check-line status-icon"></i>
+                    </li>
+                    <li class="student-item completed" data-student-name="Alex Johnson">
+                        <i class="ri-user-line"></i>
+                        <span>Alex Johnson</span>
+                        <i class="ri-check-line status-icon"></i>
+                    </li>
+                    <li class="student-item active" data-student-name="Sarah Wilson">
+                        <i class="ri-user-line"></i>
+                        <span>Sarah Wilson</span>
+                    </li>
+                    <li class="student-item" data-student-name="Michael Brown">
+                        <i class="ri-user-line"></i>
+                        <span>Michael Brown</span>
+                    </li>
+                     <li class="student-item" data-student-name="Jessica Davis">
+                        <i class="ri-user-line"></i>
+                        <span>Jessica Davis</span>
+                    </li>
+                    <li class="student-item completed" data-student-name="David Miller">
+                        <i class="ri-user-line"></i>
+                        <span>David Miller</span>
+                         <i class="ri-check-line status-icon"></i>
+                    </li>
+                     <li class="student-item" data-student-name="Lisa Anderson">
+                        <i class="ri-user-line"></i>
+                        <span>Lisa Anderson</span>
+                    </li>
+                     <li class="student-item" data-student-name="Chris Martinez">
+                        <i class="ri-user-line"></i>
+                        <span>Chris Martinez</span>
+                    </li>
+                </ul>
+            </aside>
+
+            <!-- Scoring Section -->
+            <section class="scoring-section">
+                <div class="scoring-header">
+                    <h2 id="scoring-student-name">Scoring: Sarah Wilson</h2>
+                    <div class="total-score-display">
+                        <span id="total-score">15</span>/30
+                        <p>Total Score</p>
+                    </div>
+                </div>
+                <p class="scoring-instruction">Rate each parameter from 1-10 points</p>
+                
+                <form id="scoring-form">
+                    <!-- Scoring Criterion 1: Clarity -->
+                    <div class="criterion">
+                        <label for="clarity">Clarity</label>
+                        <p class="criterion-description">How clear and understandable was the presentation?</p>
+                        <div class="score-slider-container">
+                            <span>Score:</span>
+                            <input type="range" id="clarity" class="score-slider" data-criterion="Clarity" min="1" max="10" value="5">
+                            <span class="score-value">5 / 10</span>
+                        </div>
+                        <div class="slider-labels">
+                            <span>Poor (1)</span>
+                            <span>Average (5)</span>
+                            <span>Excellent (10)</span>
+                        </div>
+                    </div>
+
+                    <!-- Scoring Criterion 2: Confidence -->
+                    <div class="criterion">
+                        <label for="confidence">Confidence</label>
+                        <p class="criterion-description">How confident and composed was the student?</p>
+                        <div class="score-slider-container">
+                            <span>Score:</span>
+                            <input type="range" id="confidence" class="score-slider" data-criterion="Confidence" min="1" max="10" value="5">
+                            <span class="score-value">5 / 10</span>
+                        </div>
+                         <div class="slider-labels">
+                            <span>Poor (1)</span>
+                            <span>Average (5)</span>
+                            <span>Excellent (10)</span>
+                        </div>
+                    </div>
+
+                    <!-- Scoring Criterion 3: Creativity -->
+                    <div class="criterion">
+                        <label for="creativity">Creativity</label>
+                        <p class="criterion-description">How creative and original was the performance?</p>
+                        <div class="score-slider-container">
+                            <span>Score:</span>
+                            <input type="range" id="creativity" class="score-slider" data-criterion="Creativity" min="1" max="10" value="5">
+                            <span class="score-value">5 / 10</span>
+                        </div>
+                         <div class="slider-labels">
+                            <span>Poor (1)</span>
+                            <span>Average (5)</span>
+                            <span>Excellent (10)</span>
+                        </div>
+                    </div>
+
+                    <!-- Additional Comments -->
+                    <div class="additional-comments">
+                         <div class="comments-header">
+                            <label for="comments">Additional Comments (Optional)</label>
+                            <button type="button" id="generate-feedback-btn" class="btn btn-gemini">
+                                ✨ Generate Feedback
+                            </button>
+                        </div>
+                        <div id="loading-spinner" class="spinner-container" style="display: none;">
+                            <div class="spinner"></div>
+                            <p>Generating feedback...</p>
+                        </div>
+                        <textarea id="comments" placeholder="Enter any additional feedback or observations... or generate it with AI!"></textarea>
+                    </div>
+
+                    <!-- Action Buttons -->
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="ri-file-add-line"></i>
+                            Submit Score
+                        </button>
+                        <button type="button" class="btn btn-secondary">
+                            <i class="ri-skip-forward-line"></i>
+                            Skip for Now
+                        </button>
+                    </div>
+                </form>
+            </section>
+        </main>
+    </div>
+
+    <!-- Link to the external JavaScript file -->
+    <script src="/js/judge.js"></script>
+</body>
+</html>

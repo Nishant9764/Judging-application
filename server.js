@@ -23,6 +23,10 @@ app.get("/admin",(req,res)=>{
     res.render("admin.ejs");
 })
 
+app.get("/judge",(req,res)=>{
+    res.render("judge.ejs")
+})
+
 app.get("/*splat",(req,res)=>{
     res.render("404.ejs");
 });
