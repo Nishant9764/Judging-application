@@ -19,9 +19,14 @@ app.get("/home",(req,res)=>{
     res.render("home.ejs");
 });
 
+app.get("/admin",(req,res)=>{
+    res.render("admin.ejs");
+})
+
 app.get("/*splat",(req,res)=>{
     res.render("404.ejs");
 });
+
 
 app.listen(port, () => {
     console.log(`Server running on port: http://localhost:${port}`);
