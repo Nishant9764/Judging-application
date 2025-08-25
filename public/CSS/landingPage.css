@@ -1,325 +1,295 @@
-/* Reset and Base Styles */
-* {
+/* =========================
+   Reset & Base
+   ========================= */
+   * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-}
-
-body {
+  }
+  
+  body {
     font-family: 'Inter', sans-serif;
-    background: linear-gradient(135deg, #1a0033 0%, #2d1b69 50%, #0f4c75 100%);
     min-height: 100vh;
     overflow-x: hidden;
-    color: white;
-}
-
-.container {
+    color: #ffffff;
+    position: relative;
+    background: linear-gradient(
+      135deg,
+      #ff512f,   /* Warm Sunset Orange */
+      #dd2476,   /* Sunset Pink */
+      #00c6ff,   /* Ocean Light Blue */
+      #11998e    /* Emerald Green */
+    );
+  }
+  
+  /* Layout container */
+  .container {
     min-height: 100vh;
     display: flex;
     flex-direction: column;
     position: relative;
-}
-
-/* Header Styles */
-.header {
+  }
+  
+  /* =========================
+     Header
+     ========================= */
+  .header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 20px 40px;
-    background: rgba(0, 0, 0, 0.3);
+    padding: 22px 40px;
+    background: rgba(255, 255, 255, 0.08);
     backdrop-filter: blur(10px);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-/* Left Logo Section */
-.iskcon-logo {
+    -webkit-backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.14);
+    box-shadow: 0 2px 12px rgba(0,0,0,0.25);
+  }
+  
+  /* Left logo area */
+  .iskcon-logo {
     display: flex;
     align-items: center;
-    gap: 15px;
-}
-
-.lotus-symbol {
-    width: 60px;
-    height: 60px;
+    gap: 14px;
+  }
+  
+  .lotus-symbol {
+    width: 70px;
+    height: 70px;
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
     border: 3px solid #fff;
-    box-shadow: 0 0 20px rgba(255, 107, 53, 0.5);
-    background-color: #fff;
-}
-
-.lotus-symbol img {
+    background: radial-gradient(circle, #ffffff 65%, #dd2476 100%);
+    box-shadow:
+      0 0 18px rgba(221, 36, 118, 0.6),
+      0 0 36px rgba(0, 198, 255, 0.5);
+    overflow: hidden;
+  }
+  
+  .lotus-symbol img {
     width: 100%;
     height: 100%;
     object-fit: contain;
     border-radius: 50%;
-}
-
-.logo-text {
+  }
+  
+  .logo-text {
     display: flex;
     flex-direction: column;
-}
-
-.iskcon {
+  }
+  
+  .iskcon {
     font-family: 'Cinzel', serif;
     font-size: 18px;
     font-weight: 600;
     color: #fff;
     letter-spacing: 2px;
-}
-
-.subtitle {
+    text-shadow: 0 0 8px rgba(0, 198, 255, 0.8);
+  }
+  
+  .subtitle {
     font-size: 12px;
-    color: #ccc;
+    color: #e0e0e0;
     margin-top: 2px;
-}
-
-/* Title Section */
-.title-section {
+  }
+  
+  /* Title section */
+  .title-section {
     text-align: center;
     flex: 1;
-    max-width: 600px;
-}
-
-.main-title {
+    max-width: 720px;
+    padding: 0 10px;
+  }
+  
+  .main-title {
     font-family: 'Cinzel', serif;
-    font-size: 28px;
-    font-weight: 600;
-    margin-bottom: 10px;
-    background: linear-gradient(45deg, #ffd700, #fff);
+    font-size: 58px;
+    font-weight: 700;
+    letter-spacing: 1.2px;
+    background: linear-gradient(90deg, #ffefba, #ffffff, #00c6ff);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
-    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
-}
-
-.founder-title {
-    font-size: 16px;
+    text-shadow: 0 3px 6px rgba(0,0,0,0.35);
+  }
+  
+  .founder-title {
+    font-size: 20px;
     font-weight: 400;
-    color: #e0e0e0;
-    line-height: 1.4;
-}
-
-/* Right Logo Section */
-.prabhupada-image {
-    width: 60px;
-    height: 60px;
-}
-
-.circular-frame {
-    width: 60px;
-    height: 60px;
+    color: #f2f2f2;
+    line-height: 1.45;
+    margin-top: 6px;
+  }
+  
+  /* Right logo area */
+  .prabhupada-image {
+    width: 70px;
+    height: 70px;
+  }
+  
+  .circular-frame {
+    width: 70px;
+    height: 70px;
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
     border: 3px solid #fff;
-    box-shadow: 0 0 20px rgba(212, 175, 55, 0.5);
-    background-color: #fff;
-}
-
-.circular-frame img {
+    background: radial-gradient(circle, #ffffff 65%, #00c6ff 100%);
+    box-shadow:
+      0 0 18px rgba(0, 198, 255, 0.6),
+      0 0 36px rgba(17, 153, 142, 0.5);
+    overflow: hidden;
+  }
+  
+  .circular-frame img {
     width: 100%;
     height: 100%;
     object-fit: contain;
     border-radius: 50%;
-}
-
-/* Main Content */
-.main-content {
+  }
+  
+  /* =========================
+     Main Content
+     ========================= */
+  .main-content {
     flex: 1;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    padding: 40px;
-    padding-bottom: 0px;
+    padding: 44px 20px 10px;
+    gap: 38px;
+    text-align: center;
     position: relative;
-}
-
-.hare-krishna-text {
+  }
+  
+  /* Central circular image (no aura) */
+  .central-image {
+    position: relative;
+    width: 236px;
+    height: 236px;
+    border-radius: 50%;
+    padding: 10px;
+    background: radial-gradient(circle, #ffffff 62%, #00c6ff 100%);
+    box-shadow:
+      0 0 32px rgba(0, 198, 255, 0.8),
+      0 0 64px rgba(221, 36, 118, 0.6);
+  }
+  
+  .central-image img {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 5px solid #ffffff;
+  }
+  
+  /* Hare Krishna text */
+  .hare-krishna-text {
     display: flex;
     flex-direction: column;
-    gap: 20px;
-    text-align: center;
-}
-
-.hare {
+    gap: 18px;
+  }
+  
+  .hare {
     font-family: 'Cinzel', serif;
-    font-size: 80px;
-    font-weight: 600;
+    font-size: 86px;
+    font-weight: 800;
     color: #ffffff;
-    text-shadow: 0 0 20px rgba(255, 255, 255, 0.8);
-    letter-spacing: 8px;
-}
-
-.krishna {
+    text-shadow: 0 0 22px rgba(255, 255, 255, 0.9);
+    letter-spacing: 10px;
+  }
+  
+  .krishna {
     font-family: 'Cinzel', serif;
-    font-size: 80px;
-    font-weight: 600;
-    background: linear-gradient(45deg, #00ff7f, #40e0d0);
+    font-size: 86px;
+    font-weight: 800;
+    color: white;
     -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
     background-clip: text;
-    text-shadow: 0 0 20px rgba(0, 255, 127, 0.6);
-    letter-spacing: 8px;
-    animation: glow 2s ease-in-out infinite alternate;
-}
-
-/* Get Started Button Styles */
-.get-started {
-    padding-bottom: 30px;
+    text-shadow: 0 0 28px rgba(0, 255, 135, 0.9);
+    letter-spacing: 10px;
+  }
+  
+  /* =========================
+     Get Started Button
+     ========================= */
+  .get-started {
+    padding-bottom: 60px;
     display: flex;
     justify-content: center;
     align-items: center;
-}
-
-.get-started button {
+  }
+  
+  .get-started button {
     font-family: 'Cinzel', serif;
-    font-size: 20px;
-    font-weight: 600;
-    color: #1a0033; 
-    padding: 15px 45px;
+    font-size: 22px;
+    font-weight: 800;
+    color: #200032;
+    padding: 15px 52px;
     border: none;
-    border-radius: 50px; 
-    background: linear-gradient(45deg, #ffd700, #ffae00); /* Golden gradient */
+    border-radius: 50px;
+    background: linear-gradient(45deg, #ffefba, #ffd700, #ff512f);
     cursor: pointer;
     text-transform: uppercase;
     letter-spacing: 2px;
-    box-shadow: 0 4px 20px rgba(255, 215, 0, 0.4);
-    transition: all 0.3s ease-in-out;
-}
-
-.get-started button:hover {
-    transform: translateY(-5px) scale(1.05); /* Lift up and grow */
-    box-shadow: 0 8px 30px rgba(255, 215, 0, 0.6); /* Intense glow on hover */
-}
-
-.get-started button:active {
-    transform: translateY(0) scale(1); /* Push down on click */
-    box-shadow: 0 4px 20px rgba(255, 215, 0, 0.4);
-}
-
-
-/* Animations */
-@keyframes sway {
-    from { transform: rotate(-5deg); }
-    to { transform: rotate(5deg); }
-}
-
-@keyframes glow {
-    from {
-        text-shadow: 0 0 20px rgba(0, 255, 127, 0.6);
-        filter: brightness(1);
-    }
-    to {
-        text-shadow: 0 0 30px rgba(0, 255, 127, 1), 0 0 40px rgba(64, 224, 208, 0.8);
-        filter: brightness(1.2);
-    }
-}
-
-@keyframes bounce {
-    0%, 20%, 50%, 80%, 100% {
-        transform: translateY(0) translateX(-50%);
-    }
-    40% {
-        transform: translateY(-10px) translateX(-50%);
-    }
-    60% {
-        transform: translateY(-5px) translateX(-50%);
-    }
-}
-
-/* Responsive Design */
-@media (max-width: 1024px) {
-    .krishna-section {
-        gap: 40px;
-    }
-
-    .hare, .krishna {
-        font-size: 60px;
-        letter-spacing: 4px;
-    }
-
-    .main-title {
-        font-size: 24px;
-    }
-}
-
-@media (max-width: 768px) {
+    box-shadow: 0 6px 22px rgba(255, 198, 0, 0.65);
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+  }
+  
+  .get-started button:hover {
+    transform: translateY(-6px) scale(1.06);
+    box-shadow: 0 12px 32px rgba(255, 215, 0, 0.85);
+  }
+  
+  .get-started button:active {
+    transform: translateY(0) scale(1.0);
+    box-shadow: 0 6px 18px rgba(255, 215, 0, 0.6);
+  }
+  
+  /* =========================
+     Animations
+     ========================= */
+  @keyframes glow {
+    from { text-shadow: 0 0 20px rgba(0, 255, 135, 0.65); }
+    to   { text-shadow: 0 0 40px rgba(221, 36, 118, 0.9), 0 0 60px rgba(0, 198, 255, 0.85); }
+  }
+  
+  /* =========================
+     Responsive
+     ========================= */
+  @media (max-width: 1024px) {
+    .main-title { font-size: 26px; }
+    .hare, .krishna { font-size: 64px; letter-spacing: 6px; }
+    .central-image { width: 200px; height: 200px; }
+  }
+  
+  @media (max-width: 768px) {
     .header {
-        flex-direction: column;
-        gap: 20px;
-        padding: 20px;
-        text-align: center;
+      flex-direction: column;
+      gap: 18px;
+      padding: 20px;
+      text-align: center;
     }
-
-    .krishna-section {
-        flex-direction: column;
-        gap: 40px;
-        text-align: center;
-    }
-
-    .hare, .krishna {
-        font-size: 48px;
-        letter-spacing: 2px;
-    }
-
-    .main-title {
-        font-size: 20px;
-    }
-
-    .founder-title {
-        font-size: 14px;
-    }
-
-    .contact-section {
-        position: relative;
-        right: auto;
-        top: auto;
-        transform: none;
-        margin-top: 20px;
-    }
-}
-
-@media (max-width: 480px) {
-    .main-content {
-        padding: 20px;
-    }
-
-    .hare, .krishna {
-        font-size: 36px;
-        letter-spacing: 1px;
-    }
-
-    .krishna-body {
-        width: 100px;
-        height: 160px;
-    }
-
-    .main-title {
-        font-size: 18px;
-    }
-
-    .header {
-        padding: 15px;
-    }
-}
-
-/* Background Elements */
-body::before {
-    content: '';
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background:
-        radial-gradient(circle at 20% 80%, rgba(255, 107, 53, 0.1) 0%, transparent 50%),
-        radial-gradient(circle at 80% 20%, rgba(0, 255, 127, 0.1) 0%, transparent 50%),
-        radial-gradient(circle at 40% 40%, rgba(64, 224, 208, 0.1) 0%, transparent 50%);
-    pointer-events: none;
-    z-index: -1;
-}
+    .main-title { font-size: 22px; }
+    .founder-title { font-size: 14px; }
+  
+    .hare, .krishna { font-size: 52px; letter-spacing: 3px; }
+    .central-image { width: 160px; height: 160px; }
+  
+    .get-started { padding-bottom: 46px; }
+  }
+  
+  @media (max-width: 480px) {
+    .header { padding: 16px; }
+    .main-content { padding: 24px 16px 8px; }
+  
+    .main-title { font-size: 18px; }
+    .founder-title { font-size: 13px; }
+  
+    .hare, .krishna { font-size: 38px; letter-spacing: 1px; }
+    .central-image { width: 120px; height: 120px; }
+  }
+  
