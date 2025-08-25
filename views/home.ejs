@@ -1,43 +1,158 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Home - Admin & Judge</title>
-    <link rel="stylesheet" href="CSS/home.css" />
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link rel="stylesheet" href="css/home.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Header Section -->
+        <div class="header">
+            <p class="subtitle">Sign in to access the judging platform</p>
+        </div>
 
-    <!-- Bootstrap CSS -->
-    <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
-      rel="stylesheet"
-    />
-  </head>
-  <body>
-    <!-- Header -->
-    <header class="header">
-      <img src="/image/logo-left.jpg" alt="Left Logo" class="logo" />
-      <h2>Welcome to Event Portal</h2>
-      <img src="/image/logo-right.jpg" alt="Right Logo" class="logo" />
-    </header>
+        <!-- Form Container -->
+        <div class="form-container">
+            <div class="form-header">
+                <h2 class="form-title">Welcome</h2>
+                <p class="form-description">Enter your credentials to continue.</p>
+            </div>
 
-    <!-- Main Content -->
-    <section class="main-content">
-      <h1 class="mb-4 fw-bold">Choose Your Role</h1>
-      <div>
-        <a href="/admin" class="btn btn-primary btn-custom">Admin</a>
-        <a href="/judge" class="btn btn-success btn-custom">Judge</a>
-      </div>
-    </section>
+            <form class="form" onsubmit="return false;">
+                <!-- Username Input -->
+                <div class="form-group">
+                    <label class="form-label">Username</label>
+                    <input
+                        type="text"
+                        id="username"
+                        class="form-input"
+                        placeholder="Enter your username"
+                    />
+                </div>
 
-    <!-- Footer -->
-    <footer>
-      <p>
-        &copy; <%= new Date().getFullYear() %> Event Management System. All
-        Rights Reserved.
-      </p>
-    </footer>
+                <!-- Password Input -->
+                <div class="form-group">
+                    <label class="form-label">Password</label>
+                    <input
+                        type="password"
+                        id="password"
+                        class="form-input"
+                        placeholder="Enter your password"
+                    />
+                </div>
 
-    <!-- Bootstrap JS -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-  </body>
+                <!-- Role Dropdown -->
+                <div class="form-group">
+                    <label class="form-label">Role</label>
+                    <div class="dropdown">
+                        <button
+                            type="button"
+                            id="roleDropdownBtn"
+                            class="dropdown-button"
+                            onclick="toggleDropdown()"
+                        >
+                            <div class="dropdown-content">
+                                <svg class="dropdown-icon" fill="currentColor" viewBox="0 0 24 24">
+                                    <path d="M12,1L3,5V11C3,16.55 6.84,21.74 12,23C17.16,21.74 21,16.55 21,11V5L12,1M12,7C13.4,7 14.8,8.6 14.8,10.5V11.5C14.8,12.4 14.4,13.2 13.7,13.7L17.25,18H15.45L12,13.85L8.55,18H6.75L10.3,13.7C9.6,13.2 9.2,12.4 9.2,11.5V10.5C9.2,8.6 10.6,7 12,7Z"/>
+                                </svg>
+                                <span class="dropdown-text" id="selectedRole">Administrator</span>
+                            </div>
+                            <svg class="dropdown-arrow" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M7 10l5 5 5-5z"/>
+                            </svg>
+                        </button>
+                        <div id="roleDropdown" class="dropdown-menu dropdown-hidden">
+                            <button
+                                type="button"
+                                class="dropdown-item"
+                                onclick="selectRole('Administrator')"
+                            >
+                                <svg fill="currentColor" viewBox="0 0 24 24">
+                                    <path d="M12,1L3,5V11C3,16.55 6.84,21.74 12,23C17.16,21.74 21,16.55 21,11V5L12,1M12,7C13.4,7 14.8,8.6 14.8,10.5V11.5C14.8,12.4 14.4,13.2 13.7,13.7L17.25,18H15.45L12,13.85L8.55,18H6.75L10.3,13.7C9.6,13.2 9.2,12.4 9.2,11.5V10.5C9.2,8.6 10.6,7 12,7Z"/>
+                                </svg>
+                                Administrator
+                            </button>
+                            <button
+                                type="button"
+                                class="dropdown-item"
+                                onclick="selectRole('Judge')"
+                            >
+                                <svg fill="currentColor" viewBox="0 0 24 24">
+                                    <path d="M12,4A4,4 0 0,1 16,8A4,4 0 0,1 12,12A4,4 0 0,1 8,8A4,4 0 0,1 12,4M12,14C16.42,14 20,15.79 20,18V20H4V18C4,15.79 7.58,14 12,14Z"/>
+                                </svg>
+                                Judge
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Sign In Button -->
+                <button
+                    type="button"
+                    class="sign-in-button"
+                    onclick="handleSignIn()"
+                >
+                    Sign In
+                </button>
+            </form>
+
+        </div>
+    </div>
+
+    <script>
+        let isDropdownOpen = false;
+        let selectedRole = 'Administrator';
+
+        function toggleDropdown() {
+            const dropdown = document.getElementById('roleDropdown');
+            isDropdownOpen = !isDropdownOpen;
+            
+            if (isDropdownOpen) {
+                dropdown.classList.remove('dropdown-hidden');
+                dropdown.classList.add('dropdown-visible');
+            } else {
+                dropdown.classList.remove('dropdown-visible');
+                dropdown.classList.add('dropdown-hidden');
+            }
+        }
+
+        function selectRole(role) {
+            selectedRole = role;
+            document.getElementById('selectedRole').textContent = role;
+            toggleDropdown();
+        }
+
+        function handleSignIn() {
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            
+            console.log('Sign in clicked', { 
+                username: username, 
+                password: password, 
+                role: selectedRole 
+            });
+            
+            alert(`Sign in attempted with:\nUsername: ${username}\nRole: ${selectedRole}`);
+        }
+
+        function handleDemoAccess(demoType) {
+            console.log(`${demoType} demo access`);
+            alert(`${demoType} demo access requested`);
+        }
+
+        // Close dropdown when clicking outside
+        document.addEventListener('click', function(event) {
+            const dropdown = document.getElementById('roleDropdown');
+            const dropdownBtn = document.getElementById('roleDropdownBtn');
+            
+            if (!dropdownBtn.contains(event.target) && !dropdown.contains(event.target)) {
+                if (isDropdownOpen) {
+                    toggleDropdown();
+                }
+            }
+        });
+    </script>
+</body>
 </html>
