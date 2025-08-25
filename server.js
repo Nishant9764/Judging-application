@@ -1,0 +1,46 @@
+const express = require("express");
+const app = express();
+const path = require("path");
+const db = require("./db")
+
+let port = 8080;
+
+app.set("view engine", "ejs");
+app.set("views", path.join(__dirname, "/views"));
+app.use(express.urlencoded({extended: true}));
+app.use(express.json());
+app.use(express.static('public'));
+app.use(express.static(path.join(__dirname, "public")));
+
+app.get("/", (req, res) => {
+    res.render("landingPage.ejs");
+});
+
+app.post("/home",(req,res)=>{
+    res.render("home.ejs");
+});
+
+app.post("/login", (req, res) => {
+    const { username, password } = req.body;
+  
+    // check database for user
+    db.query(
+      "SELECT * FROM users WHERE username = ? AND password = ?",
+      [username, password],
+      (err, results) => {
+        if (err) throw err;
+  
+        if (results.length > 0) {
+          // ✅ Login success
+          res.render("dashboard", { user: results[0] });
+        } else {
+          // ❌ Wrong username/password
+          res.send("Invalid credentials. Please try again.");
+        }
+      }
+    );
+  });
+
+app.listen(port, () => {
+    console.log(`Server running on port: http://localhost:${port}`);
+});
