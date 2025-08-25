@@ -40,6 +40,18 @@ app.post("/login", (req, res) => {
       }
     );
   });
+app.get("/admin",(req,res)=>{
+    res.render("admin.ejs");
+})
+
+app.get("/judge",(req,res)=>{
+    res.render("judge.ejs")
+})
+
+app.get("/*splat",(req,res)=>{
+    res.render("404.ejs");
+});
+
 
 app.listen(port, () => {
     console.log(`Server running on port: http://localhost:${port}`);
