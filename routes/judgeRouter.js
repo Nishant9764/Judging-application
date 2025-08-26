@@ -12,7 +12,8 @@ function requireJudge(req, res, next) {
 
 
 judgeRouter.get("/dashboard", requireJudge, (req, res) => {
-  res.render("judge", { user: req.session.user });
+  const id = req.query.id;
+  res.render("judge", { user: req.session.user, id: id });
 });
 
 module.exports = judgeRouter;

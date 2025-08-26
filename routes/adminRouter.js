@@ -11,7 +11,8 @@ function requireAdmin(req, res, next) {
 }
 
 adminRouter.get("/dashboard", requireAdmin, (req, res) => {
-  res.render("admin", { user: req.session.user });
+  const id = req.query.id;
+  res.render("admin", { user: req.session.user, id: id });
 });
 
 module.exports = adminRouter;

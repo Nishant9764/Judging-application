@@ -30,6 +30,10 @@ app.use(session({
   saveUninitialized: true,
 }));
 
+function generateRandomString(length = 10) {
+  return Math.random().toString(36).substr(2, length); // e.g., 'a8k3jf0b'
+}
+
 // Login POST
 app.post("/login", (req, res) => {
   const { username, password, role } = req.body;
@@ -42,11 +46,14 @@ app.post("/login", (req, res) => {
 
       if (results.length > 0) {
         req.session.user = results[0];
+        const randomId = generateRandomString();
 
-        if (role === "Administrator") return res.redirect("/admin/dashboard");
-        else return res.redirect("/judge/dashboard");
+        if (role === "Administrator")
+          return res.redirect(`/admin/dashboard?id=${randomId}`);
+        else
+          return res.redirect(`/judge/dashboard?id=${randomId}`);
       } else {
-        res.render("home", { error: "Invalid credentials or role mismatch" });
+        res.render("login", { error: "Invalid credentials or role mismatch" });
       }
     }
   );
