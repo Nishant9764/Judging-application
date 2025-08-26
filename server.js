@@ -53,14 +53,14 @@ app.post("/login", (req, res) => {
         else
           return res.redirect(`/judge/dashboard?id=${randomId}`);
       } else {
-        res.render("home.ejs", { error: "Invalid credentials or role mismatch" });
+        res.render("login", { error: "Invalid credentials or role mismatch" });
       }
     }
   );
 });
 
 // Logout
-app.post("/logout", (req, res) => {
+app.get("/logout", (req, res) => {
   req.session.destroy();
   res.redirect("/");
 });

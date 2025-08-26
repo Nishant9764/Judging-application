@@ -63,9 +63,18 @@
         <!-- Overview Section -->
         <section id="overview" class="view active">
           <div class="stats-grid">
-            <div class="stat-card"><h4>Total Schools</h4> <p><%= stats.schools %></p></div>
-            <div class="stat-card"><h4>Events</h4><p><%= stats.events %></p></div>
-            <div class="stat-card"><h4>Students</h4><p><%= stats.students %></p></div>
+            <div class="stat-card">
+              <h4>Total Schools</h4>
+              <p><%= stats.schools %></p>
+            </div>
+            <div class="stat-card">
+              <h4>Events</h4>
+              <p><%= stats.events %></p>
+            </div>
+            <div class="stat-card">
+              <h4>Students</h4>
+              <p><%= stats.students %></p>
+            </div>
           </div>
           <div class="content-card">
             <h3>Recent Activity</h3>
@@ -120,7 +129,7 @@
                 <% students.forEach(student => { %>
                 <tr>
                   <td><%= student.SCHOOL %></td>
-                  <td><%= student.GROUP %></td>
+                  <td><%= student.GROUP_ID %></td>
                   <td><%= student.EVENT %></td>
                   <td><%= student.CLASS %></td>
                   <td><%= student.SEC %></td>
