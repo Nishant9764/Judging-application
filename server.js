@@ -1,7 +1,11 @@
 const express = require("express");
 const app = express();
+const session = require("express-session");
 const path = require("path");
-const db = require("./db")
+const db = require("./db");
+const adminRouter = require("./routes/adminRouter");
+const judgeRouter = require("./routes/judgeRouter");
+
 
 let port = 8080;
 
@@ -20,33 +24,43 @@ app.post("/home",(req,res)=>{
     res.render("home.ejs");
 });
 
-app.post("/login", (req, res) => {
-    const { username, password } = req.body;
-  
-    // check database for user
-    db.query(
-      "SELECT * FROM users WHERE username = ? AND password = ?",
-      [username, password],
-      (err, results) => {
-        if (err) throw err;
-  
-        if (results.length > 0) {
-          // ✅ Login success
-          res.render("dashboard", { user: results[0] });
-        } else {
-          // ❌ Wrong username/password
-          res.send("Invalid credentials. Please try again.");
-        }
-      }
-    );
-  });
-app.get("/admin",(req,res)=>{
-    res.render("admin.ejs");
-})
+app.use(session({
+  secret: "1$!086543!3537@#mbwhf&hd#$",
+  resave: false,
+  saveUninitialized: true,
+}));
 
-app.get("/judge",(req,res)=>{
-    res.render("judge.ejs")
-})
+// Login POST
+app.post("/login", (req, res) => {
+  const { username, password, role } = req.body;
+
+  db.query(
+    "SELECT * FROM users WHERE name=? AND password=? AND role=?",
+    [username, password, role],
+    (err, results) => {
+      if (err) throw err;
+
+      if (results.length > 0) {
+        req.session.user = results[0];
+
+        if (role === "Administrator") return res.redirect("/admin/dashboard");
+        else return res.redirect("/judge/dashboard");
+      } else {
+        res.render("home", { error: "Invalid credentials or role mismatch" });
+      }
+    }
+  );
+});
+
+// Logout
+app.get("/logout", (req, res) => {
+  req.session.destroy();
+  res.redirect("/");
+});
+
+app.use("/admin", adminRouter);
+app.use("/judge", judgeRouter);
+
 
 app.get("/*splat",(req,res)=>{
     res.render("404.ejs");
