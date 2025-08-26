@@ -63,9 +63,18 @@
         <!-- Overview Section -->
         <section id="overview" class="view active">
           <div class="stats-grid">
-            <div class="stat-card"><h4>Total Schools</h4> <p><%= stats.schools %></p></div>
-            <div class="stat-card"><h4>Events</h4><p><%= stats.events %></p></div>
-            <div class="stat-card"><h4>Students</h4><p><%= stats.students %></p></div>
+            <div class="stat-card">
+              <h4>Total Schools</h4>
+              <p><%= stats.schools %></p>
+            </div>
+            <div class="stat-card">
+              <h4>Events</h4>
+              <p><%= stats.events %></p>
+            </div>
+            <div class="stat-card">
+              <h4>Students</h4>
+              <p><%= stats.students %></p>
+            </div>
           </div>
           <div class="content-card">
             <h3>Recent Activity</h3>
@@ -92,16 +101,21 @@
           </div>
         </section>
 
-        <!-- Student Management Section -->
+
+        <!-- STUDENT MANAGEMENT -->
         <section id="students" class="view">
           <div class="view-header">
             <div>
               <h2>Student Management</h2>
               <p>Manage student registrations for events</p>
             </div>
-            <button class="btn btn-primary" id="addStudentBtn">
-              + Add Student
-            </button>
+            <div class="search-container">
+              <input
+                type="search"
+                id="studentSearchInput"
+                placeholder="Search students by name, school, event..."
+              />
+            </div>
           </div>
           <div class="content-card">
             <table class="data-table">
@@ -113,6 +127,7 @@
                   <th>Class</th>
                   <th>Sec</th>
                   <th>Name</th>
+                  <th>Select</th>
                 </tr>
               </thead>
 
@@ -125,6 +140,7 @@
                   <td><%= student.CLASS %></td>
                   <td><%= student.SEC %></td>
                   <td><%= student.NAME %></td>
+                  <td><input type="checkbox" class="student-checkbox" /></td>
                 </tr>
                 <% }) %>
               </tbody>
