@@ -1,203 +1,251 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Admin Dashboard</title>
-    <link rel="stylesheet" href="/CSS/admin.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-</head>
-<body>
+    <link rel="stylesheet" href="/CSS/admin.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
     <div class="dashboard-container">
-        <!-- Sidebar Navigation -->
-        <aside class="sidebar">
-            <div class="sidebar-header">
-                <h1 class="sidebar-title">School Events Judge</h1>
-                <p class="sidebar-subtitle">Administrator Panel</p>
-            </div>
-            <nav class="sidebar-nav">
-                <ul>
-                    <li><a href="#" class="nav-link active" data-view="overview">Overview</a></li>
-                    <!-- <li><a href="#" class="nav-link" data-view="schools">Schools</a></li>
+      <!-- Sidebar Navigation -->
+      <aside class="sidebar">
+        <div class="sidebar-header">
+          <h1 class="sidebar-title">School Events Judge</h1>
+          <p class="sidebar-subtitle">Administrator Panel</p>
+        </div>
+        <nav class="sidebar-nav">
+          <ul>
+            <li>
+              <a href="#" class="nav-link active" data-view="overview"
+                >Overview</a
+              >
+            </li>
+            <!-- <li><a href="#" class="nav-link" data-view="schools">Schools</a></li>
                     <li><a href="#" class="nav-link" data-view="events">Events</a></li>
                     <li><a href="#" class="nav-link" data-view="judges">Judges</a></li> -->
-                    <li><a href="#" class="nav-link" data-view="students">Students</a></li>
-                    <li><a href="#" class="nav-link" data-view="assignments">Assignments</a></li>
-                    <li><a href="#" class="nav-link" data-view="scores">Scores</a></li>
-                </ul>
-            </nav>
-        </aside>
+            <li>
+              <a href="#" class="nav-link" data-view="students">Students</a>
+            </li>
+            <li>
+              <a href="#" class="nav-link" data-view="assignments"
+                >Assignments</a
+              >
+            </li>
+            <li><a href="#" class="nav-link" data-view="scores">Scores</a></li>
+          </ul>
+        </nav>
+      </aside>
 
-        <!-- Main Content Area -->
-        <main class="main-content">
-            <header class="header">
-                <div class="user-info">
-                    <div class="user-details">
-                        <p class="user-name">Admin</p>
-                    </div>
-                    <form method="post" action="/logout"> <button class="logout-btn">Logout</button> </form>
-                    
-                </div>
-            </header>
+      <!-- Main Content Area -->
+      <main class="main-content">
+        <header class="header">
+          <div class="user-info">
+            <div class="user-details">
+              <p class="user-name">Admin</p>
+            </div>
+            <form method="post" action="/logout">
+              <button class="logout-btn">Logout</button>
+            </form>
+          </div>
+        </header>
 
-            <!-- Each section below is a "view" that can be shown or hidden -->
-            <!-- EJS Note: In a real app, you would render these sections conditionally -->
-            <!-- or include them as partials, e.g., x> -->
+        <!-- Each section below is a "view" that can be shown or hidden -->
+        <!-- EJS Note: In a real app, you would render these sections conditionally -->
+        <!-- or include them as partials, e.g., x> -->
 
-            <!-- Overview Section -->
-            <section id="overview" class="view active">
-                <div class="stats-grid">
-                    <div class="stat-card"><h4>Schools</h4><p>12</p></div>
-                    <div class="stat-card"><h4>Events</h4><p>24</p></div>
-                    <div class="stat-card"><h4>Judges</h4><p>8</p></div>
-                    <div class="stat-card"><h4>Students</h4><p>156</p></div>
-                </div>
-                <div class="content-card">
-                    <h3>Recent Activity</h3>
-                    <p class="card-subtitle">Latest updates from the judging platform</p>
-                    <ul class="activity-list">
-                        <li>Judge Sarah completed scoring for "Poetry Recitation"<span>2 min ago</span></li>
-                        <li>New student "Alex Johnson" added to St. Mary's School<span>5 min ago</span></li>
-                        <li>Event "Science Fair" assigned to Judge Mike Thompson<span>12 min ago</span></li>
-                    </ul>
-                </div>
-            </section>
+        <!-- Overview Section -->
+        <section id="overview" class="view active">
+          <div class="stats-grid">
+            <div class="stat-card"><h4>Total Schools</h4> <p><%= stats.schools %></p></div>
+            <div class="stat-card"><h4>Events</h4><p><%= stats.events %></p></div>
+            <div class="stat-card"><h4>Students</h4><p><%= stats.students %></p></div>
+          </div>
+          <div class="content-card">
+            <h3>Recent Activity</h3>
+            <p class="card-subtitle">
+              Latest updates from the judging platform
+            </p>
+            <ul class="activity-list">
+              <li>
+                Judge Sarah completed scoring for "Poetry Recitation"<span
+                  >2 min ago</span
+                >
+              </li>
+              <li>
+                New student "Alex Johnson" added to St. Mary's School<span
+                  >5 min ago</span
+                >
+              </li>
+              <li>
+                Event "Science Fair" assigned to Judge Mike Thompson<span
+                  >12 min ago</span
+                >
+              </li>
+            </ul>
+          </div>
+        </section>
 
-            <!-- Student Management Section -->
-            <section id="students" class="view">
-                <div class="view-header">
-                    <div>
-                        <h2>Student Management</h2>
-                        <p>Manage student registrations for events</p>
-                    </div>
-                    <button class="btn btn-primary" id="addStudentBtn">+ Add Student</button>
-                </div>
-                <div class="content-card">
-                    <table class="data-table">
-                        <thead>
-                            <tr>
-                                <th>Student Name</th>
-                                <th>School</th>
-                                <th>Event</th>
-                                <th>Score</th>
-                                <th>Rank</th>
-                                <th>Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <!-- Student rows would be dynamically generated here with EJS -->
-                            <tr>
-                                <td>Emma Thompson</td>
-                                <td>St. Mary's High School</td>
-                                <td>Poetry Recitation</td>
-                                <td>85/100</td>
-                                <td>#2</td>
-                                <td><button class="btn-icon">✏️</button><button class="btn-icon">🗑️</button></td>
-                            </tr>
-                            <tr>
-                                <td>Alex Johnson</td>
-                                <td>St. Mary's High School</td>
-                                <td>Poetry Recitation</td>
-                                <td>92/100</td>
-                                <td>#1</td>
-                                <td><button class="btn-icon">✏️</button><button class="btn-icon">🗑️</button></td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </section>
-            
-            <!-- Assignments Section -->
-            <section id="assignments" class="view">
-                 <div class="view-header">
-                    <div>
-                        <h2>Assignments</h2>
-                        <p>Assign events to judges and rooms to participants</p>
-                    </div>
-                </div>
-                <div class="content-card">
-                    <h3>Assign Event to Judge</h3>
-                    <form class="assignment-form">
-                        <select><option>Select Judge...</option><option>Dr. Sarah Johnson</option></select>
-                        <select><option>Select Event...</option><option>Poetry Recitation</option></select>
-                        <button type="submit" class="btn">Assign Event</button>
-                    </form>
-                </div>
-                 <div class="content-card">
-                    <h3>Assign Room to Participant</h3>
-                    <form class="assignment-form">
-                        <select><option>Select Event...</option><option>Poetry Recitation</option></select>
-                        <select><option>Select Participant...</option><option>Emma Thompson (Student)</option><option>Dr. Sarah Johnson (Judge)</option></select>
-                        <input type="text" placeholder="Enter Room Number/Name">
-                        <button type="submit" class="btn">Assign Room</button>
-                    </form>
-                </div>
-            </section>
+        <!-- Student Management Section -->
+        <section id="students" class="view">
+          <div class="view-header">
+            <div>
+              <h2>Student Management</h2>
+              <p>Manage student registrations for events</p>
+            </div>
+            <button class="btn btn-primary" id="addStudentBtn">
+              + Add Student
+            </button>
+          </div>
+          <div class="content-card">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>School</th>
+                  <th>Group</th>
+                  <th>Event</th>
+                  <th>Class</th>
+                  <th>Sec</th>
+                  <th>Name</th>
+                </tr>
+              </thead>
 
-            <!-- Scores Section -->
-            <section id="scores" class="view">
-                <div class="view-header">
-                    <div>
-                        <h2>Scores & Ranks</h2>
-                        <p>View scores and ranks of the students</p>
-                    </div>
-                </div>
-                <div class="stats-grid">
-                    <div class="stat-card"><h4>Total Students</h4><p>3</p></div>
-                    <div class="stat-card"><h4>Judged</h4><p>3</p></div>
-                    <div class="stat-card"><h4>Average Score</h4><p>69</p></div>
-                    <div class="stat-card"><h4>Completion</h4><p>100%</p></div>
-                </div>
-                <div class="content-card">
-                    <h3>Detailed Results</h3>
-                     <table class="data-table">
-                        <thead>
-                            <tr>
-                                <th>Rank</th>
-                                <th>Student</th>
-                                <th>School</th>
-                                <th>Event</th>
-                                <th>Final Score</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>#1</td>
-                                <td>Alex Johnson</td>
-                                <td>St. Mary's High School</td>
-                                <td>Poetry Recitation</td>
-                                <td>84</td>
-                            </tr>
-                             <tr>
-                                <td>#2</td>
-                                <td>Maya Patel</td>
-                                <td>Riverside Elementary</td>
-                                <td>Science Fair</td>
-                                <td>47</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </section>
-        </main>
+              <tbody>
+                <% students.forEach(student => { %>
+                <tr>
+                  <td><%= student.SCHOOL %></td>
+                  <td><%= student.GROUP %></td>
+                  <td><%= student.EVENT %></td>
+                  <td><%= student.CLASS %></td>
+                  <td><%= student.SEC %></td>
+                  <td><%= student.NAME %></td>
+                </tr>
+                <% }) %>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- Assignments Section -->
+        <section id="assignments" class="view">
+          <div class="view-header">
+            <div>
+              <h2>Assignments</h2>
+              <p>Assign events to judges and rooms to participants</p>
+            </div>
+          </div>
+          <div class="content-card">
+            <h3>Assign Event to Judge</h3>
+            <form class="assignment-form">
+              <select>
+                <option>Select Judge...</option>
+                <option>Dr. Sarah Johnson</option>
+              </select>
+              <select>
+                <option>Select Event...</option>
+                <option>Poetry Recitation</option>
+              </select>
+              <button type="submit" class="btn">Assign Event</button>
+            </form>
+          </div>
+          <div class="content-card">
+            <h3>Assign Room to Participant</h3>
+            <form class="assignment-form">
+              <select>
+                <option>Select Event...</option>
+                <option>Poetry Recitation</option>
+              </select>
+              <select>
+                <option>Select Participant...</option>
+                <option>Emma Thompson (Student)</option>
+                <option>Dr. Sarah Johnson (Judge)</option>
+              </select>
+              <input type="text" placeholder="Enter Room Number/Name" />
+              <button type="submit" class="btn">Assign Room</button>
+            </form>
+          </div>
+        </section>
+
+        <!-- Scores Section -->
+        <section id="scores" class="view">
+          <div class="view-header">
+            <div>
+              <h2>Scores & Ranks</h2>
+              <p>View scores and ranks of the students</p>
+            </div>
+          </div>
+          <div class="stats-grid">
+            <div class="stat-card">
+              <h4>Total Students</h4>
+              <p>3</p>
+            </div>
+            <div class="stat-card">
+              <h4>Judged</h4>
+              <p>3</p>
+            </div>
+            <div class="stat-card">
+              <h4>Average Score</h4>
+              <p>69</p>
+            </div>
+            <div class="stat-card">
+              <h4>Completion</h4>
+              <p>100%</p>
+            </div>
+          </div>
+          <div class="content-card">
+            <h3>Detailed Results</h3>
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Rank</th>
+                  <th>Student</th>
+                  <th>School</th>
+                  <th>Event</th>
+                  <th>Final Score</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>#1</td>
+                  <td>Alex Johnson</td>
+                  <td>St. Mary's High School</td>
+                  <td>Poetry Recitation</td>
+                  <td>84</td>
+                </tr>
+                <tr>
+                  <td>#2</td>
+                  <td>Maya Patel</td>
+                  <td>Riverside Elementary</td>
+                  <td>Science Fair</td>
+                  <td>47</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+      </main>
     </div>
 
     <!-- Generic Modal for Forms -->
     <div id="formModal" class="modal">
-        <div class="modal-content">
-            <span class="close-btn">&times;</span>
-            <h2 id="modalTitle">Add New Item</h2>
-            <form id="modalForm">
-                <div id="modalFormFields">
-                    <!-- Form fields will be injected here by JavaScript -->
-                </div>
-                <button type="submit" class="btn btn-primary">Save</button>
-            </form>
-        </div>
+      <div class="modal-content">
+        <span class="close-btn">&times;</span>
+        <h2 id="modalTitle">Add New Item</h2>
+        <form id="modalForm">
+          <div id="modalFormFields">
+            <!-- Form fields will be injected here by JavaScript -->
+          </div>
+          <button type="submit" class="btn btn-primary">Save</button>
+        </form>
+      </div>
     </div>
 
     <script src="/js/admin.js"></script>
-</body>
+  </body>
 </html>
