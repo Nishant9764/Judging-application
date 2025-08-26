@@ -320,3 +320,39 @@ body {
     border-radius: 8px;
     box-sizing: border-box;
 }
+
+
+/* --- Search Bar & Checkbox Styling --- */
+
+/* Style for the search input field */
+#studentSearchInput {
+    padding: 10px 15px;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    width: 300px; /* Adjust width as needed */
+    font-size: 0.9rem;
+    font-family: 'Inter', sans-serif;
+    transition: all 0.2s ease-in-out;
+}
+
+/* Style for the search input on focus */
+#studentSearchInput:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.2);
+}
+
+/* Style for the student checkboxes */
+.student-checkbox {
+    width: 18px;
+    height: 18px;
+    cursor: pointer;
+    /* This modern property colors the checkbox using your primary theme color */
+    accent-color: var(--primary-color); 
+}
+
+/* Center the checkbox in the table cell */
+.data-table th:last-child,
+.data-table td:last-child {
+    text-align: center;
+}

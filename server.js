@@ -6,7 +6,6 @@ const db = require("./db");
 const adminRouter = require("./routes/adminRouter");
 const judgeRouter = require("./routes/judgeRouter");
 
-
 let port = 8080;
 
 app.set("view engine", "ejs");
