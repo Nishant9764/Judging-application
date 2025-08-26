@@ -60,7 +60,7 @@ app.post("/login", (req, res) => {
 });
 
 // Logout
-app.get("/logout", (req, res) => {
+app.post("/logout", (req, res) => {
   req.session.destroy();
   res.redirect("/");
 });

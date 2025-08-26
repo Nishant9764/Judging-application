@@ -20,9 +20,9 @@
             <nav class="sidebar-nav">
                 <ul>
                     <li><a href="#" class="nav-link active" data-view="overview">Overview</a></li>
-                    <li><a href="#" class="nav-link" data-view="schools">Schools</a></li>
+                    <!-- <li><a href="#" class="nav-link" data-view="schools">Schools</a></li>
                     <li><a href="#" class="nav-link" data-view="events">Events</a></li>
-                    <li><a href="#" class="nav-link" data-view="judges">Judges</a></li>
+                    <li><a href="#" class="nav-link" data-view="judges">Judges</a></li> -->
                     <li><a href="#" class="nav-link" data-view="students">Students</a></li>
                     <li><a href="#" class="nav-link" data-view="assignments">Assignments</a></li>
                     <li><a href="#" class="nav-link" data-view="scores">Scores</a></li>
@@ -38,7 +38,8 @@
                         <p class="user-name">Admin</p>
                         <p class="user-role">Administrator</p>
                     </div>
-                    <button class="logout-btn">Logout</button>
+                    <form method="post" action="/logout"> <button class="logout-btn">Logout</button> </form>
+                    
                 </div>
             </header>
 
@@ -62,72 +63,6 @@
                         <li>New student "Alex Johnson" added to St. Mary's School<span>5 min ago</span></li>
                         <li>Event "Science Fair" assigned to Judge Mike Thompson<span>12 min ago</span></li>
                     </ul>
-                </div>
-            </section>
-
-            <!-- School Management Section -->
-            <section id="schools" class="view">
-                <div class="view-header">
-                    <div>
-                        <h2>School Management</h2>
-                        <p>Manage participating schools and their details</p>
-                    </div>
-                    <button class="btn btn-primary" id="addSchoolBtn">+ Add School</button>
-                </div>
-                <div class="card-grid">
-                    <!-- School cards would be dynamically generated here with EJS -->
-                    <div class="data-card">
-                        <h3>St. Mary's High School</h3>
-                        <p class="card-location">Downtown District</p>
-                        <p>Premier educational institution focusing on academic excellence.</p>
-                        <div class="card-footer"><span>24 Students</span><span>6 Events</span></div>
-                    </div>
-                    <div class="data-card">
-                        <h3>Riverside Elementary</h3>
-                        <p class="card-location">Riverside Area</p>
-                        <p>Community school with strong emphasis on creative arts.</p>
-                        <div class="card-footer"><span>18 Students</span><span>4 Events</span></div>
-                    </div>
-                </div>
-            </section>
-
-            <!-- Event Management Section -->
-            <section id="events" class="view">
-                 <div class="view-header">
-                    <div>
-                        <h2>Event Management</h2>
-                        <p>Create and manage school events and competitions</p>
-                    </div>
-                    <button class="btn btn-primary" id="addEventBtn">+ Add Event</button>
-                </div>
-                <div class="card-grid">
-                     <div class="data-card">
-                        <h3>Poetry Recitation</h3>
-                        <p class="card-location">St. Mary's High School</p>
-                        <span class="tag tag-ongoing">ongoing</span>
-                        <p>Classical and modern poetry recitation competition.</p>
-                        <div class="card-footer"><span>12 Students</span><span>3 Judges</span></div>
-                    </div>
-                </div>
-            </section>
-
-            <!-- Judge Management Section -->
-            <section id="judges" class="view">
-                <div class="view-header">
-                    <div>
-                        <h2>Judge Management</h2>
-                        <p>Manage judges and assign them to events</p>
-                    </div>
-                    <button class="btn btn-primary" id="addJudgeBtn">+ Add Judge</button>
-                </div>
-                <div class="card-grid">
-                     <div class="data-card">
-                        <h3>Dr. Sarah Johnson</h3>
-                        <p class="card-location">sarah.johnson@email.com</p>
-                        <span class="tag tag-active">active</span>
-                        <p>Expertise: Literature, Poetry, Creative Writing</p>
-                        <div class="card-footer"><button class="btn">Manage Events</button></div>
-                    </div>
                 </div>
             </section>
 
