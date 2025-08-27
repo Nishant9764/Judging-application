@@ -6,6 +6,8 @@ const db = require("./db");
 const adminRouter = require("./routes/adminRouter");
 const judgeRouter = require("./routes/judgeRouter");
 const assignJudgeRoutes = require("./routes/assignJudgesRouter");
+const adminDashboardRoutes = require("./routes/adminDashboardRouter");
+const adminRoutes = require("./routes/admin");
 const roomRoutes = require("./routes/roomsRouter");
 const util = require("util");
 const query = util.promisify(db.query).bind(db);
@@ -27,6 +29,9 @@ app.get("/", (req, res) => {
 app.post("/home", (req, res) => {
   res.render("home.ejs");
 });
+
+app.use("/admin", adminRoutes);
+app.use(adminDashboardRoutes);
 
 app.use(
   session({
