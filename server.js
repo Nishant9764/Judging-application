@@ -5,6 +5,9 @@ const path = require("path");
 const db = require("./db");
 const adminRouter = require("./routes/adminRouter");
 const judgeRouter = require("./routes/judgeRouter");
+const util = require('util');
+const query = util.promisify(db.query).bind(db);
+
 
 let port = 8080;
 
@@ -48,9 +51,9 @@ app.post("/login", (req, res) => {
         const randomId = generateRandomString();
 
         if (role === "Administrator")
-          return res.redirect(`/admin/dashboard?id=${randomId}`);
+          return res.redirect("/admin/dashboard?id=${randomId}");
         else
-          return res.redirect(`/judge/dashboard?id=${randomId}`);
+          return res.redirect("/judge/dashboard?id=${randomId}");
       } else {
         res.render("home", { error: "Invalid credentials or role mismatch" });
       }
@@ -58,18 +61,72 @@ app.post("/login", (req, res) => {
   );
 });
 
-// Logout
-app.get("/logout", (req, res) => {
-  req.session.destroy();
-  res.redirect("/");
-});
-
 app.use("/admin", adminRouter);
 app.use("/judge", judgeRouter);
 
 
+// Logout
+app.post("/logout", (req, res) => {
+  req.session.destroy();
+  res.redirect("/");
+});
+
+
+
+app.post('/api/assign-room', async (req, res) => {
+    try {
+        const { studentName, room } = req.body;
+        const sql = "UPDATE SchoolEvents SET room = ? WHERE NAME = ?";
+
+        // ✅ Use await with your new promisified 'query' function
+        // Note: We don't destructure here, as promisify returns the 'results' object directly.
+        const result = await query(sql, [room, studentName]);
+
+        if (result.affectedRows > 0) {
+            res.json({ success: true, message: 'Room assigned successfully!' });
+        } else {
+            res.status(404).json({ success: false, message: 'Student not found.' });
+        }
+    } catch (error) {
+        console.error('Database error:', error);
+        res.status(500).json({ success: false, message: 'Server error.' });
+    }
+});
+
+
 app.get("/*splat",(req,res)=>{
     res.render("404.ejs");
+});
+
+// --- API Endpoint to Assign a Room ---
+app.post('/api/assign-room', async (req, res) => {
+    // 1. Get student name and room value from the request body.
+    //    It's better to use a descriptive, camelCase variable like 'studentName'.
+    const { studentName, room } = req.body;
+
+    // 2. Add validation for the student's name.
+    if (!studentName) {
+        return res.status(400).json({ success: false, message: 'Student name is required.' });
+    }
+
+    try {
+        // 3. Prepare and execute the SQL UPDATE query using the student's name.
+        const sql = "UPDATE SchoolEvents SET room = ? WHERE NAME = ?";
+        const [result] = await db.execute(sql, [room, studentName]);
+
+        if (result.affectedRows > 0) {
+            // 4. Send a success response. The log message is also clearer now.
+            console.log(`Successfully assigned Room "${room}" to Student: ${studentName}`);
+            res.json({ success: true, message: 'Room assigned successfully!' });
+        } else {
+            // 5. Send an error if no student with that name was found.
+            res.status(404).json({ success: false, message: `Student "${studentName}" not found. `});
+        }
+    } catch (error) {
+        // 6. Handle any potential database errors.
+        console.error('Database error:', error);
+        res.status(500).json({ success: false, message: 'Assigned.' });
+    }
 });
 
 app.listen(port, () => {
