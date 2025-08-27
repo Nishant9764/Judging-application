@@ -79,27 +79,37 @@
             </div>
           </div>
           <div class="content-card">
-            <h3>Recent Activity</h3>
-            <p class="card-subtitle">
-              Latest updates from the judging platform
-            </p>
-            <ul class="activity-list">
-              <li>
-                Judge Sarah completed scoring for "Poetry Recitation"<span
-                  >2 min ago</span
-                >
-              </li>
-              <li>
-                New student "Alex Johnson" added to St. Mary's School<span
-                  >5 min ago</span
-                >
-              </li>
-              <li>
-                Event "Science Fair" assigned to Judge Mike Thompson<span
-                  >12 min ago</span
-                >
-              </li>
-            </ul>
+            <div id="adminDashboard" class="dashboard-container">
+
+              <!-- Rooms Overview Card -->
+              <div class="card overview-card">
+                <h3>Rooms Overview</h3>
+                <p>Total Rooms: <span id="totalRooms">0</span></p>
+                <p>Open Rooms: <span id="openRooms">0</span></p>
+                <p>Closed Rooms: <span id="closedRooms">0</span></p>
+              </div>
+            
+              <!-- Judges Overview Card -->
+              <div class="card overview-card">
+                <h3>Judges Overview</h3>
+                <p>Total Judges: <span id="totalJudges">0</span></p>
+                <p>Assigned: <span id="assignedJudges">0</span></p>
+                <p>Completed: <span id="completedJudges">0</span></p>
+              </div>
+            
+              <!-- Room-wise Assignment Details -->
+              <div class="card details-card">
+                <h3>Room Assignments</h3>
+                <div id="roomDetailsContainer"></div>
+              </div>
+            
+              <!-- Notifications / Alerts -->
+              <div class="card alert-card">
+                <h3>Notifications</h3>
+                <div id="dashboardAlerts"></div>
+              </div>
+            
+            </div>
           </div>
         </section>
 

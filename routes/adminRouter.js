@@ -1,6 +1,6 @@
 const express = require("express");
 const adminRouter = express.Router();
-const db = require("../db"); 
+const db = require("../db");
 const adminController = require("../controllers/adminController");
 
 // Middleware to protect admin routes
@@ -35,12 +35,11 @@ adminRouter.get("/dashboard", (req, res) => {
       }
 
       res.render("admin", {
-        stats: overviewResult[0],   // overview data
-        students: studentsResult    // students table
+        stats: overviewResult[0], // overview data
+        students: studentsResult, // students table
       });
     });
   });
 });
-
 
 module.exports = adminRouter;

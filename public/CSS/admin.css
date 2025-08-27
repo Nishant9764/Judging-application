@@ -478,4 +478,93 @@ body {
   .credentials-card h4 { margin-bottom: 10px; color: #0d6efd; }
   .credentials-card p { margin: 5px 0; font-weight: 500; }
   
+/* Scoped CSS */
+#adminDashboard {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 25px;
+    padding: 20px;
+    background-color: #f5f6fa;
+    font-family: 'Segoe UI', sans-serif;
+  }
+  
+  #adminDashboard .card {
+    background-color: #fff;
+    border-radius: 15px;
+    padding: 20px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+    transition: transform 0.3s, box-shadow 0.3s;
+  }
+  
+  #adminDashboard .card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 12px 30px rgba(0,0,0,0.18);
+  }
+  
+  #adminDashboard .overview-card h3,
+  #adminDashboard .details-card h3,
+  #adminDashboard .alert-card h3 {
+    font-size: 1.4rem;
+    color: #2f3640;
+    margin-bottom: 15px;
+    border-bottom: 1px solid #dcdde1;
+    padding-bottom: 5px;
+  }
+  
+  #adminDashboard .details-card {
+    max-height: 450px;
+    overflow-y: auto;
+  }
+  
+  #adminDashboard .room-card {
+    padding: 12px;
+    border-bottom: 1px solid #dcdde1;
+    margin-bottom: 10px;
+    border-radius: 8px;
+    background: #f1f2f6;
+  }
+  
+  #adminDashboard .room-card h4 {
+    font-size: 1.1rem;
+    margin-bottom: 6px;
+  }
+  
+  #adminDashboard .progress-bar-container {
+    height: 10px;
+    background: #dcdde1;
+    border-radius: 5px;
+    margin: 5px 0 10px 0;
+  }
+  
+  #adminDashboard .progress-bar {
+    height: 100%;
+    border-radius: 5px;
+    background: linear-gradient(90deg, #44bd32, #4cd137);
+    width: 0%;
+    transition: width 0.5s ease;
+  }
+  
+  #adminDashboard .badge {
+    display: inline-block;
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-size: 0.8rem;
+    color: #fff;
+    margin-right: 5px;
+  }
+  
+  #adminDashboard .badge.full { background: #e84118; }
+  #adminDashboard .badge.pending { background: #fbc531; }
+  #adminDashboard .badge.completed { background: #44bd32; }
+  
+  #adminDashboard .alert-card {
+    background-color: #ffe6e6;
+    border-left: 6px solid #ff4d4f;
+  }
+  
+  #adminDashboard #dashboardAlerts p {
+    font-weight: bold;
+    margin: 6px 0;
+    color: #b30000;
+  }
   
