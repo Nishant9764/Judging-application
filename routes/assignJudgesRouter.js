@@ -150,7 +150,7 @@ router.post("/assign", async (req, res) => {
 
     // ======================================
     // 5️⃣ Send credentials via email
-    // await sendCredentials(judgeEmail, username, password);
+    await sendCredentials(judgeEmail, username, password);
     // ======================================
 
     // 6️⃣ Return credentials for frontend card display
