@@ -17,7 +17,7 @@
       <!-- Sidebar Navigation -->
       <aside class="sidebar">
         <div class="sidebar-header">
-          <h1 class="sidebar-title">School Events Judge</h1>
+          <h1 class="sidebar-title">ISKCON NRJD Nandotsav</h1>
           <p class="sidebar-subtitle">Administrator Panel</p>
         </div>
         <nav class="sidebar-nav">
@@ -179,6 +179,7 @@
           <div class="content-card">
             <h3>Create Room</h3>
             <form
+              id="createRoomForm"
               class="assignment-form"
               style="
                 display: flex;
@@ -221,12 +222,18 @@
               </div>
               <button type="submit" class="btn">Create Room</button>
             </form>
+            <!-- Notification container at top -->
+            <div
+              id="notification-container"
+              style="position: fixed; top: 20px; right: 20px; z-index: 9999"
+            ></div>
           </div>
 
           <!-- Assign Room -->
           <div class="content-card">
             <h3>Assign Room to Judges</h3>
             <form
+              id="assignRoomForm"
               class="assignment-form"
               style="
                 display: flex;
@@ -269,6 +276,31 @@
               </div>
               <button type="submit" class="btn">Assign Room</button>
             </form>
+
+            <div
+              id="notification-container1"
+              class="notification-container1"
+            ></div>
+
+            <div
+              id="credentials-card"
+              class="credentials-card"
+              style="display: none"
+            >
+              <h4>Judge Credentials</h4>
+              <p><b>Username:</b> <span id="cred-username"></span></p>
+              <p><b>Password:</b> <span id="cred-password"></span></p>
+            </div>
+
+            <div
+              id="credentialsOutput"
+              style="
+                margin-top: 15px;
+                padding: 10px;
+                border: 1px solid #ccc;
+                display: none;
+              "
+            ></div>
           </div>
         </section>
 

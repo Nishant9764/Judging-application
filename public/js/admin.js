@@ -87,9 +87,7 @@ document.addEventListener("DOMContentLoaded", function () {
           }
         } catch (error) {
           console.error("Failed to send request:", error);
-          alert(
-            "Room assigned successfully!"
-          );
+          alert("Room assigned successfully!");
           button.textContent = "Assign";
           button.disabled = false; // Re-enable on failure
         }
@@ -128,6 +126,73 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   }
 
+  function showNotification(message, type = "success", duration = 4000) {
+    if (!message) return; // prevent empty messages
+
+    const container = document.getElementById("notification-container");
+    const notif = document.createElement("div");
+
+    notif.className = `notification ${type}`;
+    notif.textContent = message;
+
+    container.appendChild(notif);
+
+    // Animate in
+    setTimeout(() => notif.classList.add("show"), 10);
+
+    // Remove after duration
+    setTimeout(() => {
+      notif.classList.remove("show");
+      setTimeout(() => notif.remove(), 500);
+    }, duration);
+  }
+
+  const createRoomForm = document.getElementById("createRoomForm");
+  let isSubmitting = false; // 🔑 prevent double submit
+
+  createRoomForm.addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    if (isSubmitting) return; // ignore extra submits
+    isSubmitting = true;
+
+    const roomNumber = document.getElementById("roomNumber").value.trim();
+    const eventName = document.getElementById("eventName").value.trim();
+
+    if (!roomNumber || !eventName) {
+      showNotification("Please fill all fields", "error");
+      isSubmitting = false;
+      return;
+    }
+
+    try {
+      const res = await fetch("/rooms/create", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ roomNumber, eventName }),
+      });
+
+      const data = await res.json();
+
+      if (res.ok && data.success) {
+        showNotification(
+          `✅ ${data.message}. You can now add judges.`,
+          "success"
+        );
+        createRoomForm.reset();
+      } else if (data.error) {
+        showNotification(`❌ ${data.error}`, "error");
+      } else {
+        showNotification("❌ Could not create room", "error");
+      }
+    } catch (err) {
+      console.error(err);
+      showNotification("❌ Could not create room", "error");
+    } finally {
+      isSubmitting = false; // allow next submission
+    }
+  });
+
   const addJudgeBtn = document.getElementById("addJudgeBtn");
   if (addJudgeBtn) {
     addJudgeBtn.addEventListener("click", () => {
@@ -159,4 +224,79 @@ document.addEventListener("DOMContentLoaded", function () {
       }
       closeModal();
     });
+});
+
+// Assign Room to Judge Form
+const assignRoomForm = document.getElementById("assignRoomForm");
+const credentialsOutput = document.getElementById("credentialsOutput");
+
+// --- Notification container ---
+let notificationContainer = document.getElementById("notification-container1");
+if (!notificationContainer) {
+  notificationContainer = document.createElement("div");
+  notificationContainer.id = "notification-container";
+  notificationContainer.className = "notification-container";
+  document.body.appendChild(notificationContainer);
+}
+
+// --- Show notification ---
+function showNotification(message, type = "success") {
+  const notif = document.createElement("div");
+  notif.className = `notification ${type}`;
+  notif.textContent = message;
+  notificationContainer.appendChild(notif);
+  // auto-remove after 3.5s
+  setTimeout(() => notif.remove(), 3500);
+}
+
+// --- Show credentials card ---
+function showCredentials(username, password) {
+  credentialsOutput.style.display = "block";
+  credentialsOutput.innerHTML = `
+    <div class="credentials-card">
+      <h4>Judge Credentials</h4>
+      <p><b>Username:</b> ${username}</p>
+      <p><b>Password:</b> ${password}</p>
+    </div>
+  `;
+}
+
+assignRoomForm.addEventListener("submit", async (e) => {
+  e.preventDefault();
+
+  const judgeName = document.getElementById("judgeName").value.trim();
+  const roomNumber = document.getElementById("roomNo").value.trim();
+  const judgeEmail = prompt("Enter judge email:"); // optionally ask for email
+
+  if (!judgeName || !roomNumber || !judgeEmail) {
+    showNotification("Please fill all fields", "error");
+    return;
+  }
+
+  try {
+    const res = await fetch("/assign", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ judgeName, judgeEmail, roomNumber }),
+    });
+
+    const data = await res.json();
+
+    if (res.ok && data.success) {
+      showNotification(data.message, "success");
+      if (data.credentials)
+        showCredentials(data.credentials.username, data.credentials.password);
+      assignRoomForm.reset();
+    } else if (data.error) {
+      showNotification(data.error, "error");
+      credentialsOutput.style.display = "none";
+    } else {
+      showNotification("Could not assign judge", "error");
+      credentialsOutput.style.display = "none";
+    }
+  } catch (err) {
+    console.error(err);
+    showNotification("Server error while assigning judge", "error");
+    credentialsOutput.style.display = "none";
+  }
 });
