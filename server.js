@@ -37,6 +37,42 @@ function generateRandomString(length = 10) {
 }
 
 // Login POST
+app.post("/login", (req, res) => {
+  const { username, password, role } = req.body;
+
+  db.query(
+    "SELECT * FROM users WHERE name=? AND password=? AND role=?",
+    [username, password, role],
+    (err, results) => {
+      if (err) throw err;
+
+      if (results.length > 0) {
+        req.session.user = results[0];
+        const randomId = generateRandomString();
+
+        if (role === "Administrator")
+          return res.redirect("/admin/dashboard?id=${randomId}");
+        else
+          return res.redirect("/judge/dashboard?id=${randomId}");
+      } else {
+        res.render("home", { error: "Invalid credentials or role mismatch" });
+      }
+    }
+  );
+});
+
+app.use("/admin", adminRouter);
+app.use("/judge", judgeRouter);
+
+
+// Logout
+app.post("/logout", (req, res) => {
+  req.session.destroy();
+  res.redirect("/");
+});
+
+
+
 app.post('/api/assign-room', async (req, res) => {
     try {
         const { studentName, room } = req.body;
@@ -56,15 +92,6 @@ app.post('/api/assign-room', async (req, res) => {
         res.status(500).json({ success: false, message: 'Server error.' });
     }
 });
-
-// Logout
-app.post("/logout", (req, res) => {
-  req.session.destroy();
-  res.redirect("/");
-});
-
-app.use("/admin", adminRouter);
-app.use("/judge", judgeRouter);
 
 
 app.get("/*splat",(req,res)=>{
@@ -93,7 +120,7 @@ app.post('/api/assign-room', async (req, res) => {
             res.json({ success: true, message: 'Room assigned successfully!' });
         } else {
             // 5. Send an error if no student with that name was found.
-            res.status(404).json({ success: false, message: `Student "${studentName}" not found.` });
+            res.status(404).json({ success: false, message: `Student "${studentName}" not found. `});
         }
     } catch (error) {
         // 6. Handle any potential database errors.
