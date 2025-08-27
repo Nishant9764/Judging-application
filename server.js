@@ -52,7 +52,7 @@ app.post("/login", (req, res) => {
         else
           return res.redirect(`/judge/dashboard?id=${randomId}`);
       } else {
-        res.render("login", { error: "Invalid credentials or role mismatch" });
+        res.render("home", { error: "Invalid credentials or role mismatch" });
       }
     }
   );
@@ -71,7 +71,6 @@ app.use("/judge", judgeRouter);
 app.get("/*splat",(req,res)=>{
     res.render("404.ejs");
 });
-
 
 app.listen(port, () => {
     console.log(`Server running on port: http://localhost:${port}`);
