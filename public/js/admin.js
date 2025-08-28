@@ -1,125 +1,209 @@
 document.addEventListener("DOMContentLoaded", function () {
-  // --- View Switching Logic ---
+  // --- A: DEFINE ALL YOUR VARIABLES & ELEMENTS HERE ---
   const navLinks = document.querySelectorAll(".nav-link");
   const views = document.querySelectorAll(".view");
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+  const modal = document.getElementById("formModal");
+  const modalTitle = document.getElementById("modalTitle");
+  const modalFormFields = document.getElementById("modalFormFields");
+  const modalForm = document.getElementById("modalForm");
+  const closeModalBtn = document.querySelector(".close-btn");
+  const addEventBtn = document.getElementById("addEventBtn");
+  const addJudgeBtn = document.getElementById("addJudgeBtn");
+  const createRoomForm = document.getElementById("createRoomForm");
+  const assignRoomForm = document.getElementById("assignRoomForm");
+  const studentSearchInput = document.getElementById("studentSearchInput");
+  const studentTableBody = document.getElementById("studentTableBody");
+  const credentialsOutput = document.getElementById("credentialsOutput");
+
+  const eventCounters = {};
+  const eventPrefixes = {
+    Drawing: "DR",
+    Shloka: "SH",
+    "Fancy Dress": "FD",
+    Quiz: "QU",
+  };
+  let isSubmitting = false;
+
+  // --- B: DEFINE ALL YOUR HELPER FUNCTIONS HERE ---
+
+  /**
+   * Creates and displays a notification message on the screen.
+   * @param {string} message The message to display.
+   * @param {string} type The type of notification ('success' or 'error').
+   * @param {number} duration How long the notification stays visible in ms.
+   */
+  function showNotification(message, type = "success", duration = 4000) {
+    if (!message) return;
+    const container =
+      document.getElementById("notification-container") ||
+      createNotifContainer();
+    const notif = document.createElement("div");
+    notif.className = `notification ${type}`;
+    notif.textContent = message;
+    container.appendChild(notif);
+    setTimeout(() => notif.classList.add("show"), 10);
+    setTimeout(() => {
+      notif.classList.remove("show");
+      setTimeout(() => notif.remove(), 500);
+    }, duration);
+  }
+
+  /**
+   * Creates the notification container if it doesn't exist.
+   * @returns {HTMLElement} The notification container element.
+   */
+  function createNotifContainer() {
+    let container = document.createElement("div");
+    container.id = "notification-container";
+    container.className = "notification-container";
+    document.body.appendChild(container);
+    return container;
+  }
+
+  /**
+   * Displays judge login credentials in a card.
+   * @param {string} username The judge's username.
+   * @param {string} password The judge's password.
+   */
+  function showCredentials(username, password) {
+    if (!credentialsOutput) return;
+    credentialsOutput.style.display = "block";
+    credentialsOutput.innerHTML = `
+      <div class="credentials-card">
+        <h4>Judge Credentials</h4>
+        <p><b>Username:</b> ${username}</p>
+        <p><b>Password:</b> ${password}</p>
+      </div>
+    `;
+  }
+
+  /**
+   * Opens the modal with a specific title and form fields.
+   * @param {string} title The title for the modal.
+   * @param {string} formFieldsHTML The HTML string for the form inputs.
+   */
+  function openModal(title, formFieldsHTML) {
+    modalTitle.textContent = title;
+    modalFormFields.innerHTML = formFieldsHTML;
+    modal.style.display = "block";
+  }
+
+  /**
+   * Closes the modal.
+   */
+  function closeModal() {
+    modal.style.display = "none";
+  }
+
+  /**
+   * Sends student status (selected/deselected) and unique ID to the server.
+   * @param {string} name The student's name.
+   * @param {number} status The new status (1 for selected, 0 for not).
+   * @param {string|null} uniqueId The generated unique ID or null.
+   */
+  async function updateStudentStatus(name, status, uniqueId) {
+    console.log(
+      `Sending to server: Name=${name}, Status=${status}, ID=${uniqueId}`
+    );
+    try {
+      const response = await fetch("/admin/update-status", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          studentName: name,
+          isSelected: status,
+          uniqueId: uniqueId,
+        }),
+      });
+      if (!response.ok) {
+        throw new Error(`Server error: ${response.status}`);
+      }
+      const result = await response.json();
+      console.log("Database updated successfully:", result);
+    } catch (error) {
+      console.error("Error updating student status:", error);
+      showNotification("Could not save student status.", "error");
+    }
+  }
+
+  /**
+   * Assigns a room to a student and updates the database.
+   * @param {string} name The student's name.
+   * @param {string} room The room number.
+   * @param {HTMLButtonElement} button The button that was clicked.
+   * @param {HTMLInputElement} input The input field for the room number.
+   */
+  async function assignRoomToStudent(name, room, button, input) {
+    button.disabled = true;
+    button.textContent = "Saving...";
+
+    try {
+      const response = await fetch("/admin/assign-room", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          studentName: name,
+          roomNumber: room,
+        }),
+      });
+
+      const result = await response.json();
+
+      if (!response.ok) {
+        throw new Error(result.message || "Failed to update.");
+      }
+
+      showNotification(
+        result.message || "Room assigned successfully!",
+        "success"
+      );
+      input.readOnly = true;
+      button.classList.add("assigned");
+      button.textContent = "Assigned";
+    } catch (error) {
+      showNotification(error.message, "error");
+      if (!button.classList.contains("assigned")) {
+        button.textContent = "Assign";
+      }
+    } finally {
+      button.disabled = false;
+    }
+  }
+
+  // --- C: ADD ALL YOUR EVENT LISTENERS & INITIALIZATION LOGIC HERE ---
+
+  // Initialize event ID counters from existing data on page load
+  document.querySelectorAll("#studentTableBody tr").forEach((row) => {
+    const eventName = row.dataset.event;
+    const idCell = row.querySelector(".unique-id-cell");
+
+    if (idCell && idCell.textContent.trim()) {
+      const existingId = idCell.textContent.trim();
+      const prefix =
+        eventPrefixes[eventName] || eventName.substring(0, 2).toUpperCase();
+
+      if (existingId.startsWith(prefix)) {
+        const number = parseInt(existingId.substring(prefix.length), 10);
+        if (
+          !isNaN(number) &&
+          (!eventCounters[eventName] || number > eventCounters[eventName])
+        ) {
+          eventCounters[eventName] = number;
+        }
+      }
+    }
+  });
+  console.log("Counters initialized from existing data:", eventCounters);
+
+  // View switching logic for main navigation
   navLinks.forEach((link) => {
     link.addEventListener("click", function (event) {
       event.preventDefault();
       const viewToShow = this.getAttribute("data-view");
-
       navLinks.forEach((nav) => nav.classList.remove("active"));
       this.classList.add("active");
-
       views.forEach((view) => {
+        // Use class-based active state for consistency
         if (view.id === viewToShow) {
           view.classList.add("active");
         } else {
@@ -129,291 +213,230 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   });
 
-  // --- Student Search/Filter Logic ---
-  const studentSearchInput = document.getElementById("studentSearchInput");
+  // Student search/filter logic
   if (studentSearchInput) {
-    const studentTableRows = document.querySelectorAll(
-      "#students .data-table tbody tr"
-    );
-
     studentSearchInput.addEventListener("keyup", (event) => {
       const searchTerm = event.target.value.toLowerCase();
-
+      const studentTableRows = document.querySelectorAll(
+        "#studentTableBody tr"
+      );
       studentTableRows.forEach((row) => {
         const rowText = row.textContent.toLowerCase();
-        if (rowText.includes(searchTerm)) {
-          row.style.display = ""; // Show matching row
+        row.style.display = rowText.includes(searchTerm) ? "" : "none";
+      });
+    });
+  }
+
+  // Event delegation for the student table (Room Assignment and Checkboxes)
+  if (studentTableBody) {
+    // A. Main click handler for room assignment buttons
+    studentTableBody.addEventListener("click", async (event) => {
+      if (event.target.classList.contains("btn-assign")) {
+        const button = event.target;
+        const row = button.closest("tr");
+        const input = row.querySelector(".room-input");
+        const studentName = button.dataset.studentname;
+
+        if (button.classList.contains("assigned")) {
+          button.classList.remove("assigned");
+          button.textContent = "Save";
+          input.readOnly = false;
+          input.focus();
+          return;
+        }
+
+        const roomNumber = input.value.trim();
+        if (!roomNumber) {
+          showNotification("Please enter a room number.", "error");
+          return;
+        }
+        await assignRoomToStudent(studentName, roomNumber, button, input);
+      }
+    });
+
+    // B. Hover effect listeners to show "Edit" text on assigned buttons
+    studentTableBody.addEventListener("mouseover", (event) => {
+      const button = event.target;
+      if (
+        button.classList.contains("btn-assign") &&
+        button.classList.contains("assigned")
+      ) {
+        button.textContent = "Edit";
+      }
+    });
+
+    studentTableBody.addEventListener("mouseout", (event) => {
+      const button = event.target;
+      if (
+        button.classList.contains("btn-assign") &&
+        button.classList.contains("assigned")
+      ) {
+        button.textContent = "Assigned";
+      }
+    });
+
+    // C. Logic for student selection checkboxes and ID generation
+    const checkboxes = document.querySelectorAll(".student-checkbox");
+    checkboxes.forEach((checkbox) => {
+      checkbox.addEventListener("change", function () {
+        const row = this.closest("tr");
+        const idCell = row.querySelector(".unique-id-cell");
+        const eventName = row.dataset.event;
+        const studentName = this.dataset.studentName;
+        const newStatus = this.checked ? 1 : 0;
+
+        if (this.checked) {
+          if (!eventCounters[eventName]) eventCounters[eventName] = 0;
+          eventCounters[eventName]++;
+          const prefix =
+            eventPrefixes[eventName] || eventName.substring(0, 2).toUpperCase();
+          const idNumber = String(eventCounters[eventName]).padStart(2, "0");
+          const uniqueId = `${prefix}${idNumber}`;
+          idCell.textContent = uniqueId;
+          row.dataset.uniqueId = uniqueId;
+          updateStudentStatus(studentName, newStatus, uniqueId);
         } else {
-          row.style.display = "none"; // Hide non-matching row
+          idCell.textContent = "";
+          delete row.dataset.uniqueId;
+          // Note: Decrementing counter on uncheck can be complex if not done in order.
+          // The current implementation correctly handles re-adding but does not reuse numbers.
+          updateStudentStatus(studentName, newStatus, null);
         }
       });
     });
   }
 
-  // --- Room Assignment Logic ---
-  const studentTableBody = document.getElementById("studentTableBody");
-  if (studentTableBody) {
-    studentTableBody.addEventListener("click", async (event) => {
-      if (event.target.classList.contains("btn-assign")) {
-        const button = event.target;
-        const studentName = button.dataset.studentname;
-        const roomInput = button
-          .closest(".room-assignment-cell")
-          .querySelector(".room-input");
-        const roomValue = roomInput.value.trim();
+  // Handle "Create Room" form submission
+  if (createRoomForm) {
+    createRoomForm.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      if (isSubmitting) return;
+      isSubmitting = true;
 
-        button.textContent = "Saving...";
-        button.disabled = true;
+      const roomNumber = document.getElementById("roomNumber").value.trim();
+      const eventName = document.getElementById("eventName").value.trim();
 
-        try {
-          const response = await fetch("/api/assign-room", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-              studentName: studentName,
-              room: roomValue,
-            }),
-          });
+      if (!roomNumber || !eventName) {
+        showNotification("Please fill all fields", "error");
+        isSubmitting = false;
+        return;
+      }
 
-          // ✅ IMPORTANT: Check if the HTTP response was successful
-          if (!response.ok) {
-            // This will handle 404 or 500 errors from the server
-            throw new Error(`Server responded with status: ${response.status}`);
-          }
+      try {
+        const res = await fetch("/rooms/create", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ roomNumber, eventName }),
+        });
+        const data = await res.json();
 
-          const result = await response.json();
-
-          if (result.success) {
-            // ✅ UPDATED: Changed text to "Assigned" and made it permanent
-            button.textContent = "Assigned";
-            // The button remains disabled to show the action is complete
-            // If you want it to be clickable again, you can re-enable it here.
-          } else {
-            alert(`Error: ${result.message}`);
-            button.textContent = "Assign";
-            button.disabled = false; // Re-enable on failure
-          }
-        } catch (error) {
-          console.error("Failed to send request:", error);
-          alert("Room assigned successfully!");
-          button.textContent = "Assign";
-          button.disabled = false; // Re-enable on failure
-
-
-
-
-
-
-
+        if (res.ok && data.success) {
+          showNotification(
+            `✅ ${data.message}. You can now add judges.`,
+            "success"
+          );
+          createRoomForm.reset();
+        } else {
+          showNotification(
+            `❌ ${data.error || "Could not create room"}`,
+            "error"
+          );
         }
-        // Note: I removed the 'finally' block because the button's state
-        // is now handled specifically in the success/error cases.
+      } catch (err) {
+        console.error(err);
+        showNotification("❌ Server error. Could not create room.", "error");
+      } finally {
+        isSubmitting = false;
       }
     });
   }
 
-  // --- Modal Logic ---
-  const modal = document.getElementById("formModal");
-  const modalTitle = document.getElementById("modalTitle");
-  const modalFormFields = document.getElementById("modalFormFields");
-  const closeModalBtn = document.querySelector(".close-btn");
+  // Handle "Assign Judge to Room" form submission
+  if (assignRoomForm) {
+    assignRoomForm.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const judgeName = document.getElementById("judgeName").value.trim();
+      const roomNumber = document.getElementById("roomNo").value.trim();
+      const judgeEmail = prompt("Enter judge's email address:");
 
-  function openModal(title, formFieldsHTML) {
-    modalTitle.textContent = title;
-    modalFormFields.innerHTML = formFieldsHTML;
-    modal.style.display = "block";
-  }
+      if (!judgeName || !roomNumber || !judgeEmail) {
+        showNotification(
+          "Please fill all fields and provide an email.",
+          "error"
+        );
+        return;
+      }
 
-  function closeModal() {
-    modal.style.display = "none";
+      try {
+        const res = await fetch("/assign", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ judgeName, judgeEmail, roomNumber }),
+        });
+        const data = await res.json();
+        credentialsOutput.style.display = "none"; // Hide previous credentials
 
-
+        if (res.ok && data.success) {
+          showNotification(data.message, "success");
+          if (data.credentials) {
+            showCredentials(
+              data.credentials.username,
+              data.credentials.password
+            );
+          }
+          assignRoomForm.reset();
+        } else {
+          showNotification(data.error || "Could not assign judge", "error");
+        }
+      } catch (err) {
+        console.error(err);
+        showNotification("Server error while assigning judge", "error");
+        credentialsOutput.style.display = "none";
+      }
+    });
   }
 
   // Modal Triggers
-  const addEventBtn = document.getElementById("addEventBtn");
   if (addEventBtn) {
     addEventBtn.addEventListener("click", () => {
       const fields = `
-                <input type="text" name="eventName" placeholder="Event Name" required>
-                <input type="text" name="school" placeholder="Associated School">
-                <input type="text" name="category" placeholder="Category">
-            `;
+        <input type="text" name="eventName" placeholder="Event Name" required>
+        <input type="text" name="school" placeholder="Associated School">
+        <input type="text" name="category" placeholder="Category">
+      `;
       openModal("Add New Event", fields);
     });
   }
 
-  function showNotification(message, type = "success", duration = 4000) {
-    if (!message) return; // prevent empty messages
-
-    const container = document.getElementById("notification-container");
-    const notif = document.createElement("div");
-
-    notif.className = `notification ${type}`;
-    notif.textContent = message;
-
-    container.appendChild(notif);
-
-    // Animate in
-    setTimeout(() => notif.classList.add("show"), 10);
-
-    // Remove after duration
-    setTimeout(() => {
-      notif.classList.remove("show");
-      setTimeout(() => notif.remove(), 500);
-    }, duration);
-  }
-
-  const createRoomForm = document.getElementById("createRoomForm");
-  let isSubmitting = false; // 🔑 prevent double submit
-
-  createRoomForm.addEventListener("submit", async (e) => {
-    e.preventDefault();
-
-    if (isSubmitting) return; // ignore extra submits
-    isSubmitting = true;
-
-    const roomNumber = document.getElementById("roomNumber").value.trim();
-    const eventName = document.getElementById("eventName").value.trim();
-
-    if (!roomNumber || !eventName) {
-      showNotification("Please fill all fields", "error");
-      isSubmitting = false;
-      return;
-    }
-
-    try {
-      const res = await fetch("/rooms/create", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ roomNumber, eventName }),
-      });
-
-      const data = await res.json();
-
-      if (res.ok && data.success) {
-        showNotification(
-          `✅ ${data.message}. You can now add judges.`,
-          "success"
-        );
-        createRoomForm.reset();
-      } else if (data.error) {
-        showNotification(`❌ ${data.error}`, "error");
-      } else {
-        showNotification("❌ Could not create room", "error");
-      }
-    } catch (err) {
-      console.error(err);
-      showNotification("❌ Could not create room", "error");
-    } finally {
-      isSubmitting = false; // allow next submission
-    }
-  });
-
-  const addJudgeBtn = document.getElementById("addJudgeBtn");
   if (addJudgeBtn) {
     addJudgeBtn.addEventListener("click", () => {
       const fields = `
-                <input type="text" name="judgeName" placeholder="Judge Name" required>
-                <input type="email" name="email" placeholder="Email Address">
-                <input type="text" name="expertise" placeholder="Expertise (comma-separated)">
-            `;
+        <input type="text" name="judgeName" placeholder="Judge Name" required>
+        <input type="email" name="email" placeholder="Email Address" required>
+        <input type="text" name="expertise" placeholder="Expertise (e.g., Music, Dance)">
+      `;
       openModal("Add New Judge", fields);
     });
   }
 
-  // Close modal events
-  closeModalBtn.addEventListener("click", closeModal);
-  window.addEventListener("click", function (event) {
-    if (event.target == modal) {
-      closeModal();
-    }
+  // Modal Closing Events
+  if (closeModalBtn) closeModalBtn.addEventListener("click", closeModal);
+  window.addEventListener("click", (event) => {
+    if (event.target == modal) closeModal();
   });
 
-  // Handle form submission
-  document
-    .getElementById("modalForm")
-    .addEventListener("submit", function (event) {
+  // Generic Modal Form Submission (for Add Event/Judge)
+  if (modalForm) {
+    modalForm.addEventListener("submit", function (event) {
       event.preventDefault();
       const formData = new FormData(this);
+      // In a real application, you would send this data to the server.
+      // For now, it just logs the data to the console.
       for (let [key, value] of formData.entries()) {
         console.log(`${key}: ${value}`);
       }
+      showNotification("Data submitted (see console).", "success");
       closeModal();
     });
-});
-
-// Assign Room to Judge Form
-const assignRoomForm = document.getElementById("assignRoomForm");
-const credentialsOutput = document.getElementById("credentialsOutput");
-
-// --- Notification container ---
-let notificationContainer = document.getElementById("notification-container1");
-if (!notificationContainer) {
-  notificationContainer = document.createElement("div");
-  notificationContainer.id = "notification-container";
-  notificationContainer.className = "notification-container";
-  document.body.appendChild(notificationContainer);
-}
-
-// --- Show notification ---
-function showNotification(message, type = "success") {
-  const notif = document.createElement("div");
-  notif.className = `notification ${type}`;
-  notif.textContent = message;
-  notificationContainer.appendChild(notif);
-  // auto-remove after 3.5s
-  setTimeout(() => notif.remove(), 3500);
-}
-
-// --- Show credentials card ---
-function showCredentials(username, password) {
-  credentialsOutput.style.display = "block";
-  credentialsOutput.innerHTML = `
-    <div class="credentials-card">
-      <h4>Judge Credentials</h4>
-      <p><b>Username:</b> ${username}</p>
-      <p><b>Password:</b> ${password}</p>
-    </div>
-  `;
-}
-
-assignRoomForm.addEventListener("submit", async (e) => {
-  e.preventDefault();
-
-  const judgeName = document.getElementById("judgeName").value.trim();
-  const roomNumber = document.getElementById("roomNo").value.trim();
-  const judgeEmail = prompt("Enter judge email:"); // optionally ask for email
-
-  if (!judgeName || !roomNumber || !judgeEmail) {
-    showNotification("Please fill all fields", "error");
-    return;
-  }
-
-  try {
-    const res = await fetch("/assign", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ judgeName, judgeEmail, roomNumber }),
-    });
-
-    const data = await res.json();
-
-    if (res.ok && data.success) {
-      showNotification(data.message, "success");
-      if (data.credentials)
-        showCredentials(data.credentials.username, data.credentials.password);
-      assignRoomForm.reset();
-    } else if (data.error) {
-      showNotification(data.error, "error");
-      credentialsOutput.style.display = "none";
-    } else {
-      showNotification("Could not assign judge", "error");
-      credentialsOutput.style.display = "none";
-    }
-  } catch (err) {
-    console.error(err);
-    showNotification("Server error while assigning judge", "error");
-    credentialsOutput.style.display = "none";
   }
 });
