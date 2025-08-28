@@ -560,3 +560,23 @@ body {
   @media (max-width:1100px) {
     .overview-card, .details-card { grid-column: span 12; }
   }
+
+  /* --- NEW STYLES FOR ASSIGN BUTTON --- */
+
+/* Style for the green "Assigned" button */
+.btn-assign.assigned {
+    background-color: #28a745; /* Success Green */
+    color: white;
+  }
+  
+  /* Darker green on hover for the "Assigned" button */
+  .btn-assign.assigned:hover {
+    background-color: #218838;
+  }
+  
+  /* Style for the input field when a room is assigned */
+  .room-input:read-only {
+    background-color: #e9ecef; /* A light grey to indicate it's not active */
+    cursor: default;
+    border-color: #ced4da;
+  }

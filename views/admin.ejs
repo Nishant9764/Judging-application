@@ -58,10 +58,6 @@
           </div>
         </header>
 
-        <!-- Each section below is a "view" that can be shown or hidden -->
-        <!-- EJS Note: In a real app, you would render these sections conditionally -->
-        <!-- or include them as partials, e.g., x> -->
-
         <!-- Overview Section -->
         <section id="overview" class="view active">
           <div class="stats-grid">
@@ -151,20 +147,21 @@
             <table class="data-table">
               <thead>
                 <tr>
-                  <th>School</th>
-                  <th>Group</th>
-                  <th>Event</th>
-                  <th>Class</th>
-                  <th>Sec</th>
-                  <th>Name</th>
+                  <th>SCHOOL</th>
+                  <th>GROUP_ID</th>
+                  <th>EVENT</th>
+                  <th>CLASS</th>
+                  <th>SEC</th>
+                  <th>NAME</th>
                   <th>Room</th>
+                  <th>Unique ID</th>
                   <th>Select</th>
                 </tr>
               </thead>
 
               <tbody id="studentTableBody">
                 <% students.forEach(student => { %>
-                <tr>
+                <tr data-event="<%= student.EVENT %>">
                   <td><%= student.SCHOOL %></td>
                   <td><%= student.GROUP_ID %></td>
                   <td><%= student.EVENT %></td>
@@ -173,21 +170,23 @@
                   <td><%= student.NAME %></td>
                   <td>
                     <div class="room-assignment-cell">
-                      <input
-                        type="text"
-                        class="room-input"
-                        placeholder="Not assigned"
-                        value="<%= student.room || '' %>"
-                      />
+                      <input type="text" class="room-input" placeholder="Not
+                      assigned" value="<%= student.room || '' %>" <%=
+                      student.room ? 'readonly' : '' %> />
                       <button
-                        class="btn btn-assign"
+                        class="btn btn-assign <%= student.room ? 'assigned' : '' %>"
                         data-studentname="<%= student.NAME %>"
                       >
-                        Assign
+                        <%= student.room ? 'Assigned' : 'Assign' %>
                       </button>
                     </div>
                   </td>
-                  <td><input type="checkbox" class="student-checkbox" /></td>
+                  <td class="unique-id-cell"><%= student.unique_id || '' %></td>
+                  <td>
+                    <input type="checkbox" class="student-checkbox"
+                    data-student-name="<%= student.NAME %>" <%=
+                    student.is_selected ? 'checked' : '' %> />
+                  </td>
                 </tr>
                 <% }) %>
               </tbody>

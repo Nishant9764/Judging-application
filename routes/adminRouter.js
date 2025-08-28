@@ -42,4 +42,6 @@ adminRouter.get("/dashboard", (req, res) => {
   });
 });
 
+adminRouter.post("/update-status", adminController.updateStudentStatus);
+
 module.exports = adminRouter;

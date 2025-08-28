@@ -3,6 +3,114 @@ document.addEventListener("DOMContentLoaded", function () {
   const navLinks = document.querySelectorAll(".nav-link");
   const views = document.querySelectorAll(".view");
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   navLinks.forEach((link) => {
     link.addEventListener("click", function (event) {
       event.preventDefault();
@@ -90,6 +198,13 @@ document.addEventListener("DOMContentLoaded", function () {
           alert("Room assigned successfully!");
           button.textContent = "Assign";
           button.disabled = false; // Re-enable on failure
+
+
+
+
+
+
+
         }
         // Note: I removed the 'finally' block because the button's state
         // is now handled specifically in the success/error cases.
@@ -111,6 +226,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
   function closeModal() {
     modal.style.display = "none";
+
+
   }
 
   // Modal Triggers

@@ -119,8 +119,6 @@ app.get("/*splat", (req, res) => {
 
 // --- API Endpoint to Assign a Room ---
 app.post("/api/assign-room", async (req, res) => {
-  // 1. Get student name and room value from the request body.
-  //    It's better to use a descriptive, camelCase variable like 'studentName'.
   const { studentName, room } = req.body;
 
   // 2. Add validation for the student's name.
